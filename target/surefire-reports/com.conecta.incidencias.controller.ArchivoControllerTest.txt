@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.conecta.incidencias.controller.ArchivoControllerTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.935 s -- in com.conecta.incidencias.controller.ArchivoControllerTest

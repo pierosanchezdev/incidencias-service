@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComuneroServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.application.impl</a> &gt; <span class="el_source">ComuneroServiceImpl.java</span></div><h1>ComuneroServiceImpl.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.application.impl;
+
+import com.conecta.incidencias.application.ComuneroService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import com.conecta.incidencias.dto.request.ComuneroRequest;
+import com.conecta.incidencias.dto.response.ComuneroResponse;
+import com.conecta.incidencias.entity.Comunero;
+import com.conecta.incidencias.entity.UbicacionGeografica;
+import com.conecta.incidencias.entity.Usuario;
+import com.conecta.incidencias.mapper.ComuneroMapper;
+import com.conecta.incidencias.repository.ComuneroRepository;
+import com.conecta.incidencias.repository.UbicacionGeograficaRepository;
+import com.conecta.incidencias.repository.UsuarioRepository;
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class ComuneroServiceImpl implements ComuneroService {
+
+    private final ComuneroRepository comuneroRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final UbicacionGeograficaRepository ubicacionRepository;
+    private final ComuneroMapper comuneroMapper;
+
+    @Override
+    public ComuneroResponse crearComunero(ComuneroRequest request) {
+<span class="fc" id="L30">        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())</span>
+<span class="pc" id="L31">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
+
+<span class="fc" id="L33">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
+<span class="pc" id="L34">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
+
+<span class="fc" id="L36">        Comunero comunero = comuneroMapper.toEntity(request);</span>
+<span class="fc" id="L37">        comunero.setUsuario(usuario);</span>
+<span class="fc" id="L38">        comunero.setUbicacion(ubicacion);</span>
+
+<span class="fc" id="L40">        Comunero comuneroGuardado = comuneroRepository.save(comunero);</span>
+<span class="fc" id="L41">        return comuneroMapper.toResponse(comuneroGuardado);</span>
+    }
+
+    @Override
+    public Optional&lt;ComuneroResponse&gt; obtenerComuneroPorId(Long id) {
+<span class="fc" id="L46">        return comuneroRepository.findById(id)</span>
+<span class="fc" id="L47">                .map(comuneroMapper::toResponse);</span>
+    }
+
+    @Override
+    public ComuneroResponse actualizarComunero(Long id, ComuneroRequest request) {
+<span class="fc" id="L52">        Comunero comuneroExistente = comuneroRepository.findById(id)</span>
+<span class="fc" id="L53">                .orElseThrow(() -&gt; new RuntimeException(&quot;Comunero no encontrado&quot;));</span>
+
+<span class="fc" id="L55">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
+<span class="pc" id="L56">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
+
+<span class="fc" id="L58">        comuneroExistente.setNombres(request.getNombres());</span>
+<span class="fc" id="L59">        comuneroExistente.setApellidos(request.getApellidos());</span>
+<span class="fc" id="L60">        comuneroExistente.setTipoDocumento(request.getTipoDocumento());</span>
+<span class="fc" id="L61">        comuneroExistente.setNumeroDocumento(request.getNumeroDocumento());</span>
+<span class="fc" id="L62">        comuneroExistente.setTelefono(request.getTelefono());</span>
+<span class="fc" id="L63">        comuneroExistente.setCorreo(request.getCorreo());</span>
+<span class="fc" id="L64">        comuneroExistente.setUbicacion(ubicacion);</span>
+
+<span class="fc" id="L66">        Comunero comuneroActualizado = comuneroRepository.save(comuneroExistente);</span>
+<span class="fc" id="L67">        return comuneroMapper.toResponse(comuneroActualizado);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

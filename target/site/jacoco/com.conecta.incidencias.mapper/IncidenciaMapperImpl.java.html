@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IncidenciaMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.mapper</a> &gt; <span class="el_source">IncidenciaMapperImpl.java</span></div><h1>IncidenciaMapperImpl.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.mapper;
+
+import com.conecta.incidencias.dto.request.IncidenciaRequest;
+import com.conecta.incidencias.dto.response.ArchivoResponse;
+import com.conecta.incidencias.dto.response.IncidenciaResponse;
+import com.conecta.incidencias.entity.Archivo;
+import com.conecta.incidencias.entity.Categoria;
+import com.conecta.incidencias.entity.Incidencia;
+import com.conecta.incidencias.entity.UbicacionGeografica;
+import com.conecta.incidencias.entity.Usuario;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2025-04-26T13:31:45-0500&quot;,
+    comments = &quot;version: 1.5.5.Final, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)&quot;
+)
+@Component
+<span class="fc" id="L23">public class IncidenciaMapperImpl implements IncidenciaMapper {</span>
+
+    @Autowired
+    private ArchivoMapper archivoMapper;
+
+    @Override
+    public Incidencia toEntity(IncidenciaRequest request) {
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if ( request == null ) {</span>
+<span class="nc" id="L31">            return null;</span>
+        }
+
+<span class="fc" id="L34">        Incidencia.IncidenciaBuilder incidencia = Incidencia.builder();</span>
+
+<span class="fc" id="L36">        incidencia.titulo( request.getTitulo() );</span>
+<span class="fc" id="L37">        incidencia.descripcion( request.getDescripcion() );</span>
+<span class="fc" id="L38">        incidencia.impacto( request.getImpacto() );</span>
+<span class="fc" id="L39">        incidencia.urgencia( request.getUrgencia() );</span>
+
+<span class="fc" id="L41">        return incidencia.build();</span>
+    }
+
+    @Override
+    public IncidenciaResponse toResponse(Incidencia incidencia) {
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L47">            return null;</span>
+        }
+
+<span class="fc" id="L50">        IncidenciaResponse.IncidenciaResponseBuilder incidenciaResponse = IncidenciaResponse.builder();</span>
+
+<span class="fc" id="L52">        incidenciaResponse.id( incidencia.getId() );</span>
+<span class="fc" id="L53">        incidenciaResponse.titulo( incidencia.getTitulo() );</span>
+<span class="fc" id="L54">        incidenciaResponse.descripcion( incidencia.getDescripcion() );</span>
+<span class="fc" id="L55">        incidenciaResponse.categoriaId( incidenciaCategoriaId( incidencia ) );</span>
+<span class="fc" id="L56">        incidenciaResponse.impacto( incidencia.getImpacto() );</span>
+<span class="fc" id="L57">        incidenciaResponse.urgencia( incidencia.getUrgencia() );</span>
+<span class="fc" id="L58">        incidenciaResponse.estado( incidencia.getEstado() );</span>
+<span class="fc" id="L59">        incidenciaResponse.fechaRegistro( incidencia.getFechaRegistro() );</span>
+<span class="fc" id="L60">        incidenciaResponse.fechaActualizacion( incidencia.getFechaActualizacion() );</span>
+<span class="fc" id="L61">        incidenciaResponse.usuarioId( incidenciaUsuarioId( incidencia ) );</span>
+<span class="fc" id="L62">        incidenciaResponse.ubicacionId( incidenciaUbicacionId( incidencia ) );</span>
+<span class="fc" id="L63">        incidenciaResponse.archivos( archivoListToArchivoResponseList( incidencia.getArchivos() ) );</span>
+
+<span class="fc" id="L65">        return incidenciaResponse.build();</span>
+    }
+
+    private Long incidenciaCategoriaId(Incidencia incidencia) {
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L70">            return null;</span>
+        }
+<span class="fc" id="L72">        Categoria categoria = incidencia.getCategoria();</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if ( categoria == null ) {</span>
+<span class="nc" id="L74">            return null;</span>
+        }
+<span class="fc" id="L76">        Long id = categoria.getId();</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if ( id == null ) {</span>
+<span class="nc" id="L78">            return null;</span>
+        }
+<span class="fc" id="L80">        return id;</span>
+    }
+
+    private Long incidenciaUsuarioId(Incidencia incidencia) {
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L85">            return null;</span>
+        }
+<span class="fc" id="L87">        Usuario usuario = incidencia.getUsuario();</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
+<span class="nc" id="L89">            return null;</span>
+        }
+<span class="fc" id="L91">        Long id = usuario.getId();</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if ( id == null ) {</span>
+<span class="nc" id="L93">            return null;</span>
+        }
+<span class="fc" id="L95">        return id;</span>
+    }
+
+    private Long incidenciaUbicacionId(Incidencia incidencia) {
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L100">            return null;</span>
+        }
+<span class="fc" id="L102">        UbicacionGeografica ubicacion = incidencia.getUbicacion();</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
+<span class="nc" id="L104">            return null;</span>
+        }
+<span class="fc" id="L106">        Long id = ubicacion.getId();</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if ( id == null ) {</span>
+<span class="nc" id="L108">            return null;</span>
+        }
+<span class="fc" id="L110">        return id;</span>
+    }
+
+    protected List&lt;ArchivoResponse&gt; archivoListToArchivoResponseList(List&lt;Archivo&gt; list) {
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if ( list == null ) {</span>
+<span class="fc" id="L115">            return null;</span>
+        }
+
+<span class="fc" id="L118">        List&lt;ArchivoResponse&gt; list1 = new ArrayList&lt;ArchivoResponse&gt;( list.size() );</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        for ( Archivo archivo : list ) {</span>
+<span class="fc" id="L120">            list1.add( archivoMapper.toResponse( archivo ) );</span>
+<span class="fc" id="L121">        }</span>
+
+<span class="fc" id="L123">        return list1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

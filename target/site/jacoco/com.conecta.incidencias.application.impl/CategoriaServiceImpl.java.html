@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategoriaServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.application.impl</a> &gt; <span class="el_source">CategoriaServiceImpl.java</span></div><h1>CategoriaServiceImpl.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.application.impl;
+
+import com.conecta.incidencias.application.CategoriaService;
+import com.conecta.incidencias.dto.request.CategoriaRequest;
+import com.conecta.incidencias.dto.response.CategoriaResponse;
+import com.conecta.incidencias.entity.Categoria;
+import com.conecta.incidencias.mapper.CategoriaMapper;
+import com.conecta.incidencias.repository.CategoriaRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CategoriaServiceImpl implements CategoriaService {
+
+    private final CategoriaRepository categoriaRepository;
+    private final CategoriaMapper categoriaMapper;
+
+    @Override
+    public CategoriaResponse crearCategoria(CategoriaRequest request) {
+<span class="fc" id="L25">        Categoria categoria = categoriaMapper.toEntity(request);</span>
+<span class="fc" id="L26">        Categoria categoriaGuardada = categoriaRepository.save(categoria);</span>
+<span class="fc" id="L27">        return categoriaMapper.toResponse(categoriaGuardada);</span>
+    }
+
+    @Override
+    public Optional&lt;CategoriaResponse&gt; obtenerCategoriaPorId(Long id) {
+<span class="fc" id="L32">        return categoriaRepository.findById(id)</span>
+<span class="fc" id="L33">                .map(categoriaMapper::toResponse);</span>
+    }
+
+    @Override
+    public CategoriaResponse actualizarCategoria(Long id, CategoriaRequest request) {
+<span class="fc" id="L38">        Categoria categoriaExistente = categoriaRepository.findById(id)</span>
+<span class="fc" id="L39">                .orElseThrow(() -&gt; new RuntimeException(&quot;Categoría no encontrada&quot;));</span>
+
+<span class="fc" id="L41">        categoriaExistente.setNombre(request.getNombre());</span>
+<span class="fc" id="L42">        categoriaExistente.setDescripcion(request.getDescripcion());</span>
+
+<span class="fc" id="L44">        Categoria categoriaActualizada = categoriaRepository.save(categoriaExistente);</span>
+<span class="fc" id="L45">        return categoriaMapper.toResponse(categoriaActualizada);</span>
+    }
+
+    @Override
+    public void eliminarCategoria(Long id) {
+<span class="fc" id="L50">        categoriaRepository.deleteById(id);</span>
+<span class="fc" id="L51">    }</span>
+
+    @Override
+    public List&lt;CategoriaResponse&gt; listarCategorias() {
+<span class="fc" id="L55">        return categoriaRepository.findAll()</span>
+<span class="fc" id="L56">                .stream()</span>
+<span class="fc" id="L57">                .map(categoriaMapper::toResponse)</span>
+<span class="fc" id="L58">                .collect(Collectors.toList());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

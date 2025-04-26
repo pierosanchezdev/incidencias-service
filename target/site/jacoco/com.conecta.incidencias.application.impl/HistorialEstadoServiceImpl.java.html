@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HistorialEstadoServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.application.impl</a> &gt; <span class="el_source">HistorialEstadoServiceImpl.java</span></div><h1>HistorialEstadoServiceImpl.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.application.impl;
+
+import com.conecta.incidencias.application.HistorialEstadoService;
+import com.conecta.incidencias.dto.request.CambioEstadoRequest;
+import com.conecta.incidencias.dto.response.HistorialEstadoResponse;
+import com.conecta.incidencias.entity.*;
+import com.conecta.incidencias.enums.Estado;
+import com.conecta.incidencias.mapper.HistorialEstadoMapper;
+import com.conecta.incidencias.repository.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class HistorialEstadoServiceImpl implements HistorialEstadoService {
+
+    private final HistorialEstadoRepository historialEstadoRepository;
+    private final IncidenciaRepository incidenciaRepository;
+    private final OperadorRepository operadorRepository;
+    private final HistorialEstadoMapper historialEstadoMapper;
+
+    @Override
+    @Transactional
+    public HistorialEstadoResponse registrarCambioEstado(Long incidenciaId, Long operadorId, CambioEstadoRequest request) {
+<span class="fc" id="L29">        Incidencia incidencia = incidenciaRepository.findById(incidenciaId)</span>
+<span class="fc" id="L30">                .orElseThrow(() -&gt; new RuntimeException(&quot;Incidencia no encontrada&quot;));</span>
+
+<span class="fc" id="L32">        Operador operador = operadorRepository.findById(operadorId)</span>
+<span class="pc" id="L33">                .orElseThrow(() -&gt; new RuntimeException(&quot;Operador no encontrado&quot;));</span>
+
+<span class="fc" id="L35">        Estado estadoAnterior = incidencia.getEstado();</span>
+
+<span class="fc" id="L37">        incidencia.setEstado(request.getEstadoNuevo());</span>
+<span class="fc" id="L38">        incidenciaRepository.save(incidencia);</span>
+
+<span class="fc" id="L40">        HistorialEstado historial = HistorialEstado.builder()</span>
+<span class="fc" id="L41">                .incidencia(incidencia)</span>
+<span class="fc" id="L42">                .operador(operador)</span>
+<span class="fc" id="L43">                .estadoAnterior(estadoAnterior)</span>
+<span class="fc" id="L44">                .estadoNuevo(request.getEstadoNuevo())</span>
+<span class="fc" id="L45">                .comentario(request.getComentario())</span>
+<span class="fc" id="L46">                .build();</span>
+
+<span class="fc" id="L48">        HistorialEstado historialGuardado = historialEstadoRepository.save(historial);</span>
+
+<span class="fc" id="L50">        return historialEstadoMapper.toResponse(historialGuardado);</span>
+    }
+
+    @Override
+    public List&lt;HistorialEstadoResponse&gt; listarHistorialPorIncidencia(Long incidenciaId) {
+<span class="fc" id="L55">        return historialEstadoRepository.findByIncidenciaIdOrderByFechaCambioAsc(incidenciaId)</span>
+<span class="fc" id="L56">                .stream()</span>
+<span class="fc" id="L57">                .map(historialEstadoMapper::toResponse)</span>
+<span class="fc" id="L58">                .collect(Collectors.toList());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategoriaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.controller</a> &gt; <span class="el_source">CategoriaController.java</span></div><h1>CategoriaController.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.controller;
+
+import com.conecta.incidencias.application.CategoriaService;
+import com.conecta.incidencias.dto.request.CategoriaRequest;
+import com.conecta.incidencias.dto.response.CategoriaResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping(&quot;/categorias&quot;)
+@RequiredArgsConstructor
+public class CategoriaController {
+
+    private final CategoriaService categoriaService;
+
+    @PostMapping
+    public CategoriaResponse crearCategoria(@Valid @RequestBody CategoriaRequest request) {
+<span class="fc" id="L22">        return categoriaService.crearCategoria(request);</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public Optional&lt;CategoriaResponse&gt; obtenerCategoria(@PathVariable Long id) {
+<span class="fc" id="L27">        return categoriaService.obtenerCategoriaPorId(id);</span>
+    }
+
+    @PutMapping(&quot;/{id}&quot;)
+    public CategoriaResponse actualizarCategoria(@PathVariable Long id,
+                                                 @Valid @RequestBody CategoriaRequest request) {
+<span class="fc" id="L33">        return categoriaService.actualizarCategoria(id, request);</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public void eliminarCategoria(@PathVariable Long id) {
+<span class="fc" id="L38">        categoriaService.eliminarCategoria(id);</span>
+<span class="fc" id="L39">    }</span>
+
+    @GetMapping
+    public List&lt;CategoriaResponse&gt; listarCategorias() {
+<span class="fc" id="L43">        return categoriaService.listarCategorias();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

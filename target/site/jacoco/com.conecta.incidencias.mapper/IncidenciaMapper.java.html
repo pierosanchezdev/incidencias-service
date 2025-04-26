@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IncidenciaMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.mapper</a> &gt; <span class="el_source">IncidenciaMapper.java</span></div><h1>IncidenciaMapper.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.mapper;
+
+import com.conecta.incidencias.dto.request.IncidenciaRequest;
+import com.conecta.incidencias.dto.response.IncidenciaResponse;
+import com.conecta.incidencias.entity.Incidencia;
+import com.conecta.incidencias.enums.Estado;
+import com.conecta.incidencias.enums.Impacto;
+import com.conecta.incidencias.enums.Urgencia;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+
+@Mapper(componentModel = &quot;spring&quot;, uses = {ArchivoMapper.class})
+public interface IncidenciaMapper {
+
+    @Mappings({
+            @Mapping(target = &quot;id&quot;, ignore = true),
+            @Mapping(target = &quot;categoria&quot;, ignore = true),
+            @Mapping(target = &quot;usuario&quot;, ignore = true),
+            @Mapping(target = &quot;ubicacion&quot;, ignore = true),
+            @Mapping(target = &quot;estado&quot;, ignore = true),
+            @Mapping(target = &quot;fechaRegistro&quot;, ignore = true),
+            @Mapping(target = &quot;fechaActualizacion&quot;, ignore = true),
+            @Mapping(target = &quot;archivos&quot;, ignore = true)
+    })
+    Incidencia toEntity(IncidenciaRequest request);
+
+    @Mappings({
+            @Mapping(target = &quot;id&quot;, source = &quot;id&quot;),
+            @Mapping(target = &quot;titulo&quot;, source = &quot;titulo&quot;),
+            @Mapping(target = &quot;descripcion&quot;, source = &quot;descripcion&quot;),
+            @Mapping(target = &quot;categoriaId&quot;, source = &quot;categoria.id&quot;),
+            @Mapping(target = &quot;impacto&quot;, source = &quot;impacto&quot;),
+            @Mapping(target = &quot;urgencia&quot;, source = &quot;urgencia&quot;),
+            @Mapping(target = &quot;estado&quot;, source = &quot;estado&quot;),
+            @Mapping(target = &quot;fechaRegistro&quot;, source = &quot;fechaRegistro&quot;),
+            @Mapping(target = &quot;fechaActualizacion&quot;, source = &quot;fechaActualizacion&quot;),
+            @Mapping(target = &quot;usuarioId&quot;, source = &quot;usuario.id&quot;),
+            @Mapping(target = &quot;ubicacionId&quot;, source = &quot;ubicacion.id&quot;),
+            @Mapping(target = &quot;archivos&quot;, source = &quot;archivos&quot;)
+    })
+    IncidenciaResponse toResponse(Incidencia incidencia);
+
+    default Estado incidenciaEstado(Incidencia incidencia) {
+<span class="nc" id="L45">        return incidencia.getEstado();</span>
+    }
+
+    default Impacto incidenciaImpacto(Incidencia incidencia) {
+<span class="nc" id="L49">        return incidencia.getImpacto();</span>
+    }
+
+    default Urgencia incidenciaUrgencia(Incidencia incidencia) {
+<span class="nc" id="L53">        return incidencia.getUrgencia();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

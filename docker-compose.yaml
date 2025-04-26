@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-incidencias
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: incidenciasdb
+      MYSQL_USER: incidencias_user
+      MYSQL_PASSWORD: incidencias_password
+    ports:
+      - "3307:3306" # Puerto externo 3307 para no chocar con un MySQL local
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - incidencias-network
+
+  backend-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend-incidencias
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:mysql://mysql-db:3306/incidenciasdb
+      DB_USERNAME: incidencias_user
+      DB_PASSWORD: incidencias_password
+      JWT_SECRET: ultrasecretodevelopment
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mysql-db
+    networks:
+      - incidencias-network
+
+volumes:
+  mysql_data:
+
+networks:
+  incidencias-network:
+    driver: bridge

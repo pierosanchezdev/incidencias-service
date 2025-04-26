@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.application.impl</a> &gt; <span class="el_source">UsuarioServiceImpl.java</span></div><h1>UsuarioServiceImpl.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.application.impl;
+
+import com.conecta.incidencias.application.UsuarioService;
+import com.conecta.incidencias.dto.request.UsuarioRequest;
+import com.conecta.incidencias.dto.response.UsuarioResponse;
+import com.conecta.incidencias.entity.Usuario;
+import com.conecta.incidencias.mapper.UsuarioMapper;
+import com.conecta.incidencias.repository.UsuarioRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class UsuarioServiceImpl implements UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
+    private final UsuarioMapper usuarioMapper;
+
+    @Override
+    public UsuarioResponse crearUsuario(UsuarioRequest request) {
+<span class="fc" id="L23">        Usuario usuario = usuarioMapper.toEntity(request);</span>
+<span class="fc" id="L24">        usuario.setActivo(true);</span>
+<span class="fc" id="L25">        Usuario usuarioGuardado = usuarioRepository.save(usuario);</span>
+<span class="fc" id="L26">        return usuarioMapper.toResponse(usuarioGuardado);</span>
+    }
+
+    @Override
+    public Optional&lt;UsuarioResponse&gt; obtenerUsuarioPorId(Long id) {
+<span class="fc" id="L31">        return usuarioRepository.findById(id)</span>
+<span class="fc" id="L32">                .map(usuarioMapper::toResponse);</span>
+    }
+
+    @Override
+    public UsuarioResponse actualizarUsuario(Long id, UsuarioRequest request) {
+<span class="fc" id="L37">        Usuario usuarioExistente = usuarioRepository.findById(id)</span>
+<span class="fc" id="L38">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado con id: &quot; + id));</span>
+
+<span class="fc" id="L40">        usuarioExistente.setEmail(request.getEmail());</span>
+<span class="fc" id="L41">        usuarioExistente.setPassword(request.getPassword()); // Aquí luego debes encriptar password en seguridad</span>
+<span class="fc" id="L42">        usuarioExistente.setRol(request.getRol());</span>
+
+<span class="fc" id="L44">        Usuario usuarioActualizado = usuarioRepository.save(usuarioExistente);</span>
+<span class="fc" id="L45">        return usuarioMapper.toResponse(usuarioActualizado);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
