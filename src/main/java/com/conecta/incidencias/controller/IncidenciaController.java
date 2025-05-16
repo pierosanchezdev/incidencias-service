@@ -6,8 +6,10 @@ import com.conecta.incidencias.dto.response.IncidenciaResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +21,19 @@ public class IncidenciaController {
 
     private final IncidenciaService incidenciaService;
 
-    @PostMapping
-    public ResponseEntity<IncidenciaResponse> crearIncidencia(@RequestBody @Valid IncidenciaRequest incidenciaRequest) {
-        IncidenciaResponse response = incidenciaService.crearIncidencia(incidenciaRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> crearIncidencia(
+            @RequestPart("datos") IncidenciaRequest request,
+            @RequestPart(value = "archivos", required = false) List<MultipartFile> archivos) {
+
+        System.out.println("Request recibida: " + request.getTitulo());
+        if (archivos != null) {
+            for (MultipartFile archivo : archivos) {
+                System.out.println("Archivo: " + archivo.getOriginalFilename() + ", tipo: " + archivo.getContentType());
+            }
+        }
+        var incidenciaResponse = incidenciaService.crearIncidencia(request, archivos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(incidenciaResponse);
     }
 
     @GetMapping("/{id}")

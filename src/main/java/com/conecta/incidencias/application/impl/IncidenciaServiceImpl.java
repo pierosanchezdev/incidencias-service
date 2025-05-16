@@ -1,17 +1,21 @@
 package com.conecta.incidencias.application.impl;
 
 import com.conecta.incidencias.application.IncidenciaService;
+import com.conecta.incidencias.application.StorageService;
 import com.conecta.incidencias.dto.request.ArchivoRequest;
 import com.conecta.incidencias.dto.request.IncidenciaRequest;
 import com.conecta.incidencias.dto.response.IncidenciaResponse;
 import com.conecta.incidencias.entity.*;
+import com.conecta.incidencias.enums.TipoArchivo;
 import com.conecta.incidencias.mapper.ArchivoMapper;
 import com.conecta.incidencias.mapper.IncidenciaMapper;
 import com.conecta.incidencias.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,10 +31,11 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     private final ArchivoRepository archivoRepository;
     private final IncidenciaMapper incidenciaMapper;
     private final ArchivoMapper archivoMapper;
+    private final StorageService storageService;
 
     @Override
     @Transactional
-    public IncidenciaResponse crearIncidencia(IncidenciaRequest request) {
+    public IncidenciaResponse crearIncidencia(IncidenciaRequest request, List<MultipartFile> archivos) {
         Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
@@ -49,11 +54,19 @@ public class IncidenciaServiceImpl implements IncidenciaService {
         Incidencia incidenciaGuardada = incidenciaRepository.save(incidencia);
 
         // Manejar los archivos asociados
-        if (request.getArchivos() != null) {
-            List<Archivo> archivos = request.getArchivos().stream()
-                    .map(archivoRequest -> crearArchivoDesdeRequest(archivoRequest, incidenciaGuardada))
-                    .collect(Collectors.toList());
-            archivoRepository.saveAll(archivos);
+        if (archivos != null && !archivos.isEmpty()) {
+            for (MultipartFile archivo : archivos) {
+                String url = storageService.subirArchivo(archivo); // define este método
+
+                Archivo archivoEntity = new Archivo();
+                archivoEntity.setIncidencia(incidencia);
+                archivoEntity.setUrl(url);
+                archivoEntity.setTipo(detectarTipoArchivo(archivo));
+                archivoEntity.setTamanoBytes(archivo.getSize());
+                archivoEntity.setFechaSubida(LocalDateTime.now());
+
+                archivoRepository.save(archivoEntity);
+            }
         }
 
         return incidenciaMapper.toResponse(incidenciaGuardada);
@@ -66,12 +79,14 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<IncidenciaResponse> obtenerIncidenciaPorId(Long id) {
         return incidenciaRepository.findById(id)
                 .map(incidenciaMapper::toResponse);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<IncidenciaResponse> listarIncidencias() {
         return incidenciaRepository.findAll()
                 .stream()
@@ -80,6 +95,7 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<IncidenciaResponse> listarIncidenciasPorUsuario(Long usuarioId) {
         return incidenciaRepository.findByUsuarioId(usuarioId)
                 .stream()
@@ -108,5 +124,17 @@ public class IncidenciaServiceImpl implements IncidenciaService {
 
         Incidencia incidenciaActualizada = incidenciaRepository.save(incidenciaExistente);
         return incidenciaMapper.toResponse(incidenciaActualizada);
+    }
+
+    private TipoArchivo detectarTipoArchivo(MultipartFile archivo) {
+        String contentType = archivo.getContentType();
+        if (contentType != null) {
+            if (contentType.startsWith("image/")) {
+                return TipoArchivo.IMAGEN;
+            } else if (contentType.startsWith("video/")) {
+                return TipoArchivo.VIDEO;
+            }
+        }
+        return TipoArchivo.DESCONOCIDO;
     }
 }

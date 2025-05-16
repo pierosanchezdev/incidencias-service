@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface ComuneroRepository extends JpaRepository<Comunero, Long> {
     Optional<Comunero> findByUsuarioId(Long usuarioId);
+    Optional<Comunero> findByUsuarioEmail(String email);
+
 }

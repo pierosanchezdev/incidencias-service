@@ -48,16 +48,21 @@ import java.util.function.Function;
     }
 
     public &lt;T&gt; T extraerClaim(String token, Function&lt;Claims, T&gt; claimsResolver) {
-<span class="fc" id="L51">        final Claims claims = Jwts.parserBuilder()</span>
-<span class="fc" id="L52">                .setSigningKey(getKey())</span>
-<span class="fc" id="L53">                .build()</span>
-<span class="fc" id="L54">                .parseClaimsJws(token)</span>
-<span class="fc" id="L55">                .getBody();</span>
-<span class="fc" id="L56">        return claimsResolver.apply(claims);</span>
+        try {
+<span class="fc" id="L52">            final Claims claims = Jwts.parserBuilder()</span>
+<span class="fc" id="L53">                    .setSigningKey(getKey())</span>
+<span class="fc" id="L54">                    .setAllowedClockSkewSeconds(60) // Tolerancia de 60 segundos</span>
+<span class="fc" id="L55">                    .build()</span>
+<span class="fc" id="L56">                    .parseClaimsJws(token)</span>
+<span class="fc" id="L57">                    .getBody();</span>
+<span class="fc" id="L58">            return claimsResolver.apply(claims);</span>
+<span class="nc" id="L59">        } catch (io.jsonwebtoken.ExpiredJwtException e) {</span>
+<span class="nc" id="L60">            throw new IllegalArgumentException(&quot;El token ha expirado. Por favor, autentíquese de nuevo.&quot;);</span>
+        }
     }
 
     private Key getKey() {
-<span class="fc" id="L60">        return Keys.hmacShaKeyFor(jwtSecret.getBytes());</span>
+<span class="fc" id="L65">        return Keys.hmacShaKeyFor(jwtSecret.getBytes());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

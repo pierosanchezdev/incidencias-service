@@ -8,9 +8,13 @@ D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\ja
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\impl\HistorialEstadoServiceImpl.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\impl\IncidenciaServiceImpl.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\impl\OperadorServiceImpl.java
+D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\impl\StorageServiceImpl.java
+D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\impl\UbicacionServiceImpl.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\impl\UsuarioServiceImpl.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\IncidenciaService.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\OperadorService.java
+D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\StorageService.java
+D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\UbicacionService.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\application\UsuarioService.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\config\CorsConfig.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\config\GlobalExceptionHandler.java
@@ -22,6 +26,7 @@ D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\ja
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\controller\HistorialEstadoController.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\controller\IncidenciaController.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\controller\OperadorController.java
+D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\controller\UbicacionController.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\controller\UsuarioController.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\request\ArchivoRequest.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\request\CambioEstadoRequest.java
@@ -30,6 +35,7 @@ D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\ja
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\request\IncidenciaRequest.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\request\LoginRequest.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\request\OperadorRequest.java
+D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\request\UbicacionRequest.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\request\UsuarioRequest.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\response\ArchivoResponse.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\dto\response\CategoriaResponse.java
@@ -60,6 +66,7 @@ D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\ja
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\mapper\HistorialEstadoMapper.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\mapper\IncidenciaMapper.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\mapper\OperadorMapper.java
+D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\mapper\UbicacionMapper.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\mapper\UsuarioMapper.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\repository\ArchivoRepository.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\repository\CategoriaRepository.java
@@ -68,6 +75,7 @@ D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\ja
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\repository\IncidenciaRepository.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\repository\OperadorRepository.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\repository\UbicacionGeograficaRepository.java
+D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\repository\UbicacionRepository.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\repository\UsuarioRepository.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\security\AuthenticationService.java
 D:\UPN\Ciclo10\Capstone Project Sistemas\project\incidencias-service\src\main\java\com\conecta\incidencias\security\JwtAuthenticationFilter.java

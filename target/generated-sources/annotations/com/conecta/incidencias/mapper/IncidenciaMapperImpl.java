@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-04-26T13:31:45-0500",
+    date = "2025-05-16T14:18:04-0500",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)"
 )
 @Component
@@ -60,6 +60,8 @@ public class IncidenciaMapperImpl implements IncidenciaMapper {
         incidenciaResponse.fechaActualizacion( incidencia.getFechaActualizacion() );
         incidenciaResponse.usuarioId( incidenciaUsuarioId( incidencia ) );
         incidenciaResponse.ubicacionId( incidenciaUbicacionId( incidencia ) );
+        incidenciaResponse.latitud( incidenciaUbicacionLatitud( incidencia ) );
+        incidenciaResponse.longitud( incidenciaUbicacionLongitud( incidencia ) );
         incidenciaResponse.archivos( archivoListToArchivoResponseList( incidencia.getArchivos() ) );
 
         return incidenciaResponse.build();
@@ -108,6 +110,36 @@ public class IncidenciaMapperImpl implements IncidenciaMapper {
             return null;
         }
         return id;
+    }
+
+    private Double incidenciaUbicacionLatitud(Incidencia incidencia) {
+        if ( incidencia == null ) {
+            return null;
+        }
+        UbicacionGeografica ubicacion = incidencia.getUbicacion();
+        if ( ubicacion == null ) {
+            return null;
+        }
+        Double latitud = ubicacion.getLatitud();
+        if ( latitud == null ) {
+            return null;
+        }
+        return latitud;
+    }
+
+    private Double incidenciaUbicacionLongitud(Incidencia incidencia) {
+        if ( incidencia == null ) {
+            return null;
+        }
+        UbicacionGeografica ubicacion = incidencia.getUbicacion();
+        if ( ubicacion == null ) {
+            return null;
+        }
+        Double longitud = ubicacion.getLongitud();
+        if ( longitud == null ) {
+            return null;
+        }
+        return longitud;
     }
 
     protected List<ArchivoResponse> archivoListToArchivoResponseList(List<Archivo> list) {

@@ -5,6 +5,7 @@ import com.conecta.incidencias.dto.request.ComuneroRequest;
 import com.conecta.incidencias.dto.response.ComuneroResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -31,4 +32,11 @@ public class ComuneroController {
                                                @Valid @RequestBody ComuneroRequest request) {
         return comuneroService.actualizarComunero(id, request);
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<ComuneroResponse> obtenerPorEmail(@PathVariable String email) {
+        ComuneroResponse response = comuneroService.findByUsuarioEmail(email);
+        return ResponseEntity.ok(response);
+    }
+
 }

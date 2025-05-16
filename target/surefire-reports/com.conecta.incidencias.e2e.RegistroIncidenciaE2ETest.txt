@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.conecta.incidencias.e2e.RegistroIncidenciaE2ETest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.16 s -- in com.conecta.incidencias.e2e.RegistroIncidenciaE2ETest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.811 s -- in com.conecta.incidencias.e2e.RegistroIncidenciaE2ETest

@@ -48,12 +48,17 @@ public class JwtUtils {
     }
 
     public <T> T extraerClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claimsResolver.apply(claims);
+        try {
+            final Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(getKey())
+                    .setAllowedClockSkewSeconds(60) // Tolerancia de 60 segundos
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            return claimsResolver.apply(claims);
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            throw new IllegalArgumentException("El token ha expirado. Por favor, autentíquese de nuevo.");
+        }
     }
 
     private Key getKey() {

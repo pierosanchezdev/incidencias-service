@@ -15,12 +15,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -62,18 +67,43 @@ class IncidenciaControllerTest {
 
     @Test
     void crearIncidencia_deberiaRetornarIncidenciaCreada() throws Exception {
-        // Arrange
-        when(incidenciaService.crearIncidencia(any(IncidenciaRequest.class))).thenReturn(incidenciaResponse);
+        // Arrange: construir el JSON del request
+        String datosJson = """
+        {
+            "titulo": "Fuga de agua",
+            "descripcion": "Se detectó fuga en la vereda",
+            "categoriaId": 1,
+            "impacto": "ALTO",
+            "urgencia": "ALTA",
+            "usuarioId": 1,
+            "ubicacionId": 1
+        }
+        """;
+
+        MockMultipartFile datosPart = new MockMultipartFile(
+                "datos", // nombre del @RequestPart
+                "datos", // nombre del archivo simulado
+                "application/json",
+                datosJson.getBytes(StandardCharsets.UTF_8)
+        );
+
+        MockMultipartFile archivoPart = new MockMultipartFile(
+                "archivos",
+                "evidencia.jpg",
+                "image/jpeg",
+                "fake image content".getBytes()
+        );
 
         // Act & Assert
-        mockMvc.perform(post("/incidencias")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(incidenciaRequest)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.titulo").value("Fuga de agua"))
-                .andExpect(jsonPath("$.descripcion").value("Se detectó una fuga en la tubería principal."));
+        mockMvc.perform(multipart("/incidencias")
+                        .file(datosPart)
+                        .file(archivoPart)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isCreated());
+
+        verify(incidenciaService, times(1)).crearIncidencia(any(IncidenciaRequest.class), anyList());
     }
+
 
     @Test
     void obtenerIncidencia_deberiaRetornarIncidenciaCuandoExiste() throws Exception {

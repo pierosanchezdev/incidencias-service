@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StorageServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.application.impl</a> &gt; <span class="el_source">StorageServiceImpl.java</span></div><h1>StorageServiceImpl.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.application.impl;
+
+import com.conecta.incidencias.application.StorageService;
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
+@Service
+<span class="fc" id="L15">public class StorageServiceImpl implements StorageService {</span>
+
+<span class="fc" id="L17">    private final Path rootLocation = Paths.get(&quot;uploads&quot;);</span>
+
+    @PostConstruct
+    public void init() throws IOException {
+<span class="fc" id="L21">        Files.createDirectories(rootLocation);</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public String subirArchivo(MultipartFile archivo) {
+        try {
+<span class="fc" id="L27">            String filename = UUID.randomUUID() + &quot;_&quot; + archivo.getOriginalFilename();</span>
+<span class="fc" id="L28">            Files.copy(archivo.getInputStream(), rootLocation.resolve(filename));</span>
+<span class="fc" id="L29">            return &quot;/uploads/&quot; + filename;</span>
+<span class="nc" id="L30">        } catch (IOException e) {</span>
+<span class="nc" id="L31">            throw new RuntimeException(&quot;Error al guardar archivo&quot;, e);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

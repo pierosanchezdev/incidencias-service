@@ -30,4 +30,7 @@ public class IncidenciaResponse {
     private Long usuarioId;
     private Long ubicacionId;
     private List<ArchivoResponse> archivos;
+    private Double latitud;
+    private Double longitud;
+
 }

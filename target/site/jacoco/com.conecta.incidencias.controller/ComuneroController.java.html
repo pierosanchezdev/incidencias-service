@@ -5,6 +5,7 @@ import com.conecta.incidencias.dto.request.ComuneroRequest;
 import com.conecta.incidencias.dto.response.ComuneroResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,18 +19,25 @@ public class ComuneroController {
 
     @PostMapping
     public ComuneroResponse crearComunero(@Valid @RequestBody ComuneroRequest request) {
-<span class="fc" id="L21">        return comuneroService.crearComunero(request);</span>
+<span class="fc" id="L22">        return comuneroService.crearComunero(request);</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
     public Optional&lt;ComuneroResponse&gt; obtenerComunero(@PathVariable Long id) {
-<span class="fc" id="L26">        return comuneroService.obtenerComuneroPorId(id);</span>
+<span class="fc" id="L27">        return comuneroService.obtenerComuneroPorId(id);</span>
     }
 
     @PutMapping(&quot;/{id}&quot;)
     public ComuneroResponse actualizarComunero(@PathVariable Long id,
                                                @Valid @RequestBody ComuneroRequest request) {
-<span class="fc" id="L32">        return comuneroService.actualizarComunero(id, request);</span>
+<span class="fc" id="L33">        return comuneroService.actualizarComunero(id, request);</span>
     }
+
+    @GetMapping(&quot;/email/{email}&quot;)
+    public ResponseEntity&lt;ComuneroResponse&gt; obtenerPorEmail(@PathVariable String email) {
+<span class="nc" id="L38">        ComuneroResponse response = comuneroService.findByUsuarioEmail(email);</span>
+<span class="nc" id="L39">        return ResponseEntity.ok(response);</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

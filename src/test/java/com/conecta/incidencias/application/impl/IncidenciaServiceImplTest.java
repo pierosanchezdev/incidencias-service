@@ -1,5 +1,6 @@
 package com.conecta.incidencias.application.impl;
 
+import com.conecta.incidencias.application.StorageService;
 import com.conecta.incidencias.dto.request.IncidenciaRequest;
 import com.conecta.incidencias.dto.response.IncidenciaResponse;
 import com.conecta.incidencias.entity.*;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class IncidenciaServiceImplTest {
@@ -45,6 +48,8 @@ class IncidenciaServiceImplTest {
 
     @Mock
     private ArchivoMapper archivoMapper;
+    @Mock
+    private StorageService storageService;
 
     @InjectMocks
     private IncidenciaServiceImpl incidenciaService;
@@ -72,6 +77,13 @@ class IncidenciaServiceImplTest {
         IncidenciaResponse responseEsperado = new IncidenciaResponse();
         responseEsperado.setId(1L);
 
+        MultipartFile archivoMock = mock(MultipartFile.class);
+        when(archivoMock.getOriginalFilename()).thenReturn("foto.jpg");
+        when(archivoMock.getContentType()).thenReturn("image/jpeg");
+        when(archivoMock.getSize()).thenReturn(123456L);
+
+        when(storageService.subirArchivo(archivoMock)).thenReturn("http://fake.url/foto.jpg");
+
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(categoriaRepository.findById(2L)).thenReturn(Optional.of(categoria));
         when(ubicacionRepository.findById(3L)).thenReturn(Optional.of(ubicacion));
@@ -80,7 +92,7 @@ class IncidenciaServiceImplTest {
         when(incidenciaMapper.toResponse(incidenciaGuardada)).thenReturn(responseEsperado);
 
         // Act
-        IncidenciaResponse resultado = incidenciaService.crearIncidencia(request);
+        IncidenciaResponse resultado = incidenciaService.crearIncidencia(request, List.of(archivoMock));
 
         // Assert
         assertThat(resultado).isNotNull();

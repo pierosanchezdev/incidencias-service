@@ -9,4 +9,6 @@ public interface ComuneroService {
     ComuneroResponse crearComunero(ComuneroRequest request);
     Optional<ComuneroResponse> obtenerComuneroPorId(Long id);
     ComuneroResponse actualizarComunero(Long id, ComuneroRequest request);
+    ComuneroResponse findByUsuarioEmail(String email);
+
 }

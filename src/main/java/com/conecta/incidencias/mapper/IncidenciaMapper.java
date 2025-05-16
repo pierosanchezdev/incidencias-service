@@ -37,6 +37,8 @@ public interface IncidenciaMapper {
             @Mapping(target = "fechaActualizacion", source = "fechaActualizacion"),
             @Mapping(target = "usuarioId", source = "usuario.id"),
             @Mapping(target = "ubicacionId", source = "ubicacion.id"),
+            @Mapping(target = "latitud", source = "ubicacion.latitud"),
+            @Mapping(target = "longitud", source = "ubicacion.longitud"),
             @Mapping(target = "archivos", source = "archivos")
     })
     IncidenciaResponse toResponse(Incidencia incidencia);

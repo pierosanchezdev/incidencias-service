@@ -13,6 +13,7 @@ import com.conecta.incidencias.mapper.ComuneroMapper;
 import com.conecta.incidencias.repository.ComuneroRepository;
 import com.conecta.incidencias.repository.UbicacionGeograficaRepository;
 import com.conecta.incidencias.repository.UsuarioRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -66,4 +67,13 @@ public class ComuneroServiceImpl implements ComuneroService {
         Comunero comuneroActualizado = comuneroRepository.save(comuneroExistente);
         return comuneroMapper.toResponse(comuneroActualizado);
     }
+
+    @Override
+    @Transactional
+    public ComuneroResponse findByUsuarioEmail(String email) {
+        Comunero comunero = comuneroRepository.findByUsuarioEmail(email)
+                .orElseThrow(() -> new RuntimeException("Comunero no encontrado"));
+        return comuneroMapper.toResponse(comunero);
+    }
+
 }

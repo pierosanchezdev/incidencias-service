@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IncidenciaServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">incidencias-service</a> &gt; <a href="index.source.html" class="el_package">com.conecta.incidencias.application.impl</a> &gt; <span class="el_source">IncidenciaServiceImpl.java</span></div><h1>IncidenciaServiceImpl.java</h1><pre class="source lang-java linenums">package com.conecta.incidencias.application.impl;
 
 import com.conecta.incidencias.application.IncidenciaService;
+import com.conecta.incidencias.application.StorageService;
 import com.conecta.incidencias.dto.request.ArchivoRequest;
 import com.conecta.incidencias.dto.request.IncidenciaRequest;
 import com.conecta.incidencias.dto.response.IncidenciaResponse;
 import com.conecta.incidencias.entity.*;
+import com.conecta.incidencias.enums.TipoArchivo;
 import com.conecta.incidencias.mapper.ArchivoMapper;
 import com.conecta.incidencias.mapper.IncidenciaMapper;
 import com.conecta.incidencias.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,87 +31,111 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     private final ArchivoRepository archivoRepository;
     private final IncidenciaMapper incidenciaMapper;
     private final ArchivoMapper archivoMapper;
+    private final StorageService storageService;
 
     @Override
     @Transactional
-    public IncidenciaResponse crearIncidencia(IncidenciaRequest request) {
-<span class="fc" id="L34">        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())</span>
-<span class="pc" id="L35">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
+    public IncidenciaResponse crearIncidencia(IncidenciaRequest request, List&lt;MultipartFile&gt; archivos) {
+<span class="fc" id="L39">        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())</span>
+<span class="pc" id="L40">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
 
-<span class="fc" id="L37">        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())</span>
-<span class="pc" id="L38">                .orElseThrow(() -&gt; new RuntimeException(&quot;Categoría no encontrada&quot;));</span>
+<span class="fc" id="L42">        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())</span>
+<span class="pc" id="L43">                .orElseThrow(() -&gt; new RuntimeException(&quot;Categoría no encontrada&quot;));</span>
 
-<span class="fc" id="L40">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
-<span class="pc" id="L41">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
+<span class="fc" id="L45">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
+<span class="pc" id="L46">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
 
-<span class="fc" id="L43">        Incidencia incidencia = incidenciaMapper.toEntity(request);</span>
-<span class="fc" id="L44">        incidencia.setUsuario(usuario);</span>
-<span class="fc" id="L45">        incidencia.setCategoria(categoria);</span>
-<span class="fc" id="L46">        incidencia.setUbicacion(ubicacion);</span>
-<span class="fc" id="L47">        incidencia.setEstado(com.conecta.incidencias.enums.Estado.PENDIENTE);</span>
+<span class="fc" id="L48">        Incidencia incidencia = incidenciaMapper.toEntity(request);</span>
+<span class="fc" id="L49">        incidencia.setUsuario(usuario);</span>
+<span class="fc" id="L50">        incidencia.setCategoria(categoria);</span>
+<span class="fc" id="L51">        incidencia.setUbicacion(ubicacion);</span>
+<span class="fc" id="L52">        incidencia.setEstado(com.conecta.incidencias.enums.Estado.PENDIENTE);</span>
 
-<span class="fc" id="L49">        Incidencia incidenciaGuardada = incidenciaRepository.save(incidencia);</span>
+<span class="fc" id="L54">        Incidencia incidenciaGuardada = incidenciaRepository.save(incidencia);</span>
 
         // Manejar los archivos asociados
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if (request.getArchivos() != null) {</span>
-<span class="nc" id="L53">            List&lt;Archivo&gt; archivos = request.getArchivos().stream()</span>
-<span class="nc" id="L54">                    .map(archivoRequest -&gt; crearArchivoDesdeRequest(archivoRequest, incidenciaGuardada))</span>
-<span class="nc" id="L55">                    .collect(Collectors.toList());</span>
-<span class="nc" id="L56">            archivoRepository.saveAll(archivos);</span>
+<span class="pc bpc" id="L57" title="2 of 4 branches missed.">        if (archivos != null &amp;&amp; !archivos.isEmpty()) {</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            for (MultipartFile archivo : archivos) {</span>
+<span class="fc" id="L59">                String url = storageService.subirArchivo(archivo); // define este método</span>
+
+<span class="fc" id="L61">                Archivo archivoEntity = new Archivo();</span>
+<span class="fc" id="L62">                archivoEntity.setIncidencia(incidencia);</span>
+<span class="fc" id="L63">                archivoEntity.setUrl(url);</span>
+<span class="fc" id="L64">                archivoEntity.setTipo(detectarTipoArchivo(archivo));</span>
+<span class="fc" id="L65">                archivoEntity.setTamanoBytes(archivo.getSize());</span>
+<span class="fc" id="L66">                archivoEntity.setFechaSubida(LocalDateTime.now());</span>
+
+<span class="fc" id="L68">                archivoRepository.save(archivoEntity);</span>
+<span class="fc" id="L69">            }</span>
         }
 
-<span class="fc" id="L59">        return incidenciaMapper.toResponse(incidenciaGuardada);</span>
+<span class="fc" id="L72">        return incidenciaMapper.toResponse(incidenciaGuardada);</span>
     }
 
     private Archivo crearArchivoDesdeRequest(ArchivoRequest archivoRequest, Incidencia incidencia) {
-<span class="nc" id="L63">        Archivo archivo = archivoMapper.toEntity(archivoRequest);</span>
-<span class="nc" id="L64">        archivo.setIncidencia(incidencia);</span>
-<span class="nc" id="L65">        return archivo;</span>
+<span class="nc" id="L76">        Archivo archivo = archivoMapper.toEntity(archivoRequest);</span>
+<span class="nc" id="L77">        archivo.setIncidencia(incidencia);</span>
+<span class="nc" id="L78">        return archivo;</span>
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional&lt;IncidenciaResponse&gt; obtenerIncidenciaPorId(Long id) {
-<span class="fc" id="L70">        return incidenciaRepository.findById(id)</span>
-<span class="fc" id="L71">                .map(incidenciaMapper::toResponse);</span>
+<span class="fc" id="L84">        return incidenciaRepository.findById(id)</span>
+<span class="fc" id="L85">                .map(incidenciaMapper::toResponse);</span>
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List&lt;IncidenciaResponse&gt; listarIncidencias() {
-<span class="fc" id="L76">        return incidenciaRepository.findAll()</span>
-<span class="fc" id="L77">                .stream()</span>
-<span class="fc" id="L78">                .map(incidenciaMapper::toResponse)</span>
-<span class="fc" id="L79">                .collect(Collectors.toList());</span>
+<span class="fc" id="L91">        return incidenciaRepository.findAll()</span>
+<span class="fc" id="L92">                .stream()</span>
+<span class="fc" id="L93">                .map(incidenciaMapper::toResponse)</span>
+<span class="fc" id="L94">                .collect(Collectors.toList());</span>
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List&lt;IncidenciaResponse&gt; listarIncidenciasPorUsuario(Long usuarioId) {
-<span class="fc" id="L84">        return incidenciaRepository.findByUsuarioId(usuarioId)</span>
-<span class="fc" id="L85">                .stream()</span>
-<span class="fc" id="L86">                .map(incidenciaMapper::toResponse)</span>
-<span class="fc" id="L87">                .collect(Collectors.toList());</span>
+<span class="fc" id="L100">        return incidenciaRepository.findByUsuarioId(usuarioId)</span>
+<span class="fc" id="L101">                .stream()</span>
+<span class="fc" id="L102">                .map(incidenciaMapper::toResponse)</span>
+<span class="fc" id="L103">                .collect(Collectors.toList());</span>
     }
 
     @Override
     @Transactional
     public IncidenciaResponse actualizarIncidencia(Long id, IncidenciaRequest request) {
-<span class="fc" id="L93">        Incidencia incidenciaExistente = incidenciaRepository.findById(id)</span>
-<span class="fc" id="L94">                .orElseThrow(() -&gt; new RuntimeException(&quot;Incidencia no encontrada&quot;));</span>
+<span class="fc" id="L109">        Incidencia incidenciaExistente = incidenciaRepository.findById(id)</span>
+<span class="fc" id="L110">                .orElseThrow(() -&gt; new RuntimeException(&quot;Incidencia no encontrada&quot;));</span>
 
-<span class="fc" id="L96">        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())</span>
-<span class="pc" id="L97">                .orElseThrow(() -&gt; new RuntimeException(&quot;Categoría no encontrada&quot;));</span>
+<span class="fc" id="L112">        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())</span>
+<span class="pc" id="L113">                .orElseThrow(() -&gt; new RuntimeException(&quot;Categoría no encontrada&quot;));</span>
 
-<span class="fc" id="L99">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
-<span class="pc" id="L100">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
+<span class="fc" id="L115">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
+<span class="pc" id="L116">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
 
-<span class="fc" id="L102">        incidenciaExistente.setTitulo(request.getTitulo());</span>
-<span class="fc" id="L103">        incidenciaExistente.setDescripcion(request.getDescripcion());</span>
-<span class="fc" id="L104">        incidenciaExistente.setImpacto(request.getImpacto());</span>
-<span class="fc" id="L105">        incidenciaExistente.setUrgencia(request.getUrgencia());</span>
-<span class="fc" id="L106">        incidenciaExistente.setCategoria(categoria);</span>
-<span class="fc" id="L107">        incidenciaExistente.setUbicacion(ubicacion);</span>
+<span class="fc" id="L118">        incidenciaExistente.setTitulo(request.getTitulo());</span>
+<span class="fc" id="L119">        incidenciaExistente.setDescripcion(request.getDescripcion());</span>
+<span class="fc" id="L120">        incidenciaExistente.setImpacto(request.getImpacto());</span>
+<span class="fc" id="L121">        incidenciaExistente.setUrgencia(request.getUrgencia());</span>
+<span class="fc" id="L122">        incidenciaExistente.setCategoria(categoria);</span>
+<span class="fc" id="L123">        incidenciaExistente.setUbicacion(ubicacion);</span>
 
-<span class="fc" id="L109">        Incidencia incidenciaActualizada = incidenciaRepository.save(incidenciaExistente);</span>
-<span class="fc" id="L110">        return incidenciaMapper.toResponse(incidenciaActualizada);</span>
+<span class="fc" id="L125">        Incidencia incidenciaActualizada = incidenciaRepository.save(incidenciaExistente);</span>
+<span class="fc" id="L126">        return incidenciaMapper.toResponse(incidenciaActualizada);</span>
+    }
+
+    private TipoArchivo detectarTipoArchivo(MultipartFile archivo) {
+<span class="fc" id="L130">        String contentType = archivo.getContentType();</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        if (contentType != null) {</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">            if (contentType.startsWith(&quot;image/&quot;)) {</span>
+<span class="fc" id="L133">                return TipoArchivo.IMAGEN;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            } else if (contentType.startsWith(&quot;video/&quot;)) {</span>
+<span class="nc" id="L135">                return TipoArchivo.VIDEO;</span>
+            }
+        }
+<span class="nc" id="L138">        return TipoArchivo.DESCONOCIDO;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

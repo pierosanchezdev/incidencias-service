@@ -48,7 +48,7 @@ public class UbicacionGeografica {
 
     @NotBlank(message = "El código ubigeo es obligatorio")
     @Pattern(regexp = "\\d{6}", message = "El código ubigeo debe tener 6 dígitos numéricos")
-    @Column(unique = true)
+    @Column(nullable = false)
     private String ubigeo;
 
     @Size(max = 10)

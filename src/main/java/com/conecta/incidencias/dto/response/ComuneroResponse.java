@@ -14,12 +14,25 @@ import lombok.Setter;
 public class ComuneroResponse {
 
     private Long id;
-    private Long usuarioId;
     private String nombres;
     private String apellidos;
     private String tipoDocumento;
     private String numeroDocumento;
     private String telefono;
-    private Long ubicacionId;
     private String correo;
+
+    private String emailUsuario;
+    private String username;
+    private String rol;
+    private Long usuarioId;
+
+    // Ubicación
+    private String pais;
+    private String departamento;
+    private String provincia;
+    private String distrito;
+    private String ubigeo;
+    private String nombreLocalidad;
+    private Double latitud;
+    private Double longitud;
 }

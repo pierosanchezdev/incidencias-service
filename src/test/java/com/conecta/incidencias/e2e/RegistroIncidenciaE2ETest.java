@@ -20,17 +20,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -109,17 +112,33 @@ class RegistroIncidenciaE2ETest {
         incidenciaRequest.setDescripcion("Se detecta fuga en la tubería principal");
         incidenciaRequest.setUrgencia(Urgencia.ALTA);
         incidenciaRequest.setImpacto(Impacto.ALTO);
-        incidenciaRequest.setCategoriaId(categoriaId);
-        incidenciaRequest.setUsuarioId(usuarioId);
-        incidenciaRequest.setUbicacionId(ubicacionId);
+        incidenciaRequest.setCategoriaId(1L);
+        incidenciaRequest.setUsuarioId(1L);
+        incidenciaRequest.setUbicacionId(1L);
 
-        String requestBody = objectMapper.writeValueAsString(incidenciaRequest);
+        String datosJson = objectMapper.writeValueAsString(incidenciaRequest);
+
+        MockMultipartFile datosPart = new MockMultipartFile(
+                "datos",
+                "datos",
+                "application/json",
+                datosJson.getBytes(StandardCharsets.UTF_8)
+        );
+
+        MockMultipartFile archivoPart = new MockMultipartFile(
+                "archivos",
+                "imagen.jpg",
+                "image/jpeg",
+                "fake-image-content".getBytes(StandardCharsets.UTF_8)
+        );
 
         // Act & Assert
-        mockMvc.perform(post("/incidencias")
+        mockMvc.perform(multipart("/incidencias")
+                        .file(datosPart)
+                        .file(archivoPart)
                         .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isCreated());
     }
+
 }

@@ -13,6 +13,7 @@ import com.conecta.incidencias.mapper.ComuneroMapper;
 import com.conecta.incidencias.repository.ComuneroRepository;
 import com.conecta.incidencias.repository.UbicacionGeograficaRepository;
 import com.conecta.incidencias.repository.UsuarioRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,44 +28,53 @@ public class ComuneroServiceImpl implements ComuneroService {
 
     @Override
     public ComuneroResponse crearComunero(ComuneroRequest request) {
-<span class="fc" id="L30">        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())</span>
-<span class="pc" id="L31">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
+<span class="fc" id="L31">        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())</span>
+<span class="pc" id="L32">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
 
-<span class="fc" id="L33">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
-<span class="pc" id="L34">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
+<span class="fc" id="L34">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
+<span class="pc" id="L35">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
 
-<span class="fc" id="L36">        Comunero comunero = comuneroMapper.toEntity(request);</span>
-<span class="fc" id="L37">        comunero.setUsuario(usuario);</span>
-<span class="fc" id="L38">        comunero.setUbicacion(ubicacion);</span>
+<span class="fc" id="L37">        Comunero comunero = comuneroMapper.toEntity(request);</span>
+<span class="fc" id="L38">        comunero.setUsuario(usuario);</span>
+<span class="fc" id="L39">        comunero.setUbicacion(ubicacion);</span>
 
-<span class="fc" id="L40">        Comunero comuneroGuardado = comuneroRepository.save(comunero);</span>
-<span class="fc" id="L41">        return comuneroMapper.toResponse(comuneroGuardado);</span>
+<span class="fc" id="L41">        Comunero comuneroGuardado = comuneroRepository.save(comunero);</span>
+<span class="fc" id="L42">        return comuneroMapper.toResponse(comuneroGuardado);</span>
     }
 
     @Override
     public Optional&lt;ComuneroResponse&gt; obtenerComuneroPorId(Long id) {
-<span class="fc" id="L46">        return comuneroRepository.findById(id)</span>
-<span class="fc" id="L47">                .map(comuneroMapper::toResponse);</span>
+<span class="fc" id="L47">        return comuneroRepository.findById(id)</span>
+<span class="fc" id="L48">                .map(comuneroMapper::toResponse);</span>
     }
 
     @Override
     public ComuneroResponse actualizarComunero(Long id, ComuneroRequest request) {
-<span class="fc" id="L52">        Comunero comuneroExistente = comuneroRepository.findById(id)</span>
-<span class="fc" id="L53">                .orElseThrow(() -&gt; new RuntimeException(&quot;Comunero no encontrado&quot;));</span>
+<span class="fc" id="L53">        Comunero comuneroExistente = comuneroRepository.findById(id)</span>
+<span class="fc" id="L54">                .orElseThrow(() -&gt; new RuntimeException(&quot;Comunero no encontrado&quot;));</span>
 
-<span class="fc" id="L55">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
-<span class="pc" id="L56">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
+<span class="fc" id="L56">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
+<span class="pc" id="L57">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
 
-<span class="fc" id="L58">        comuneroExistente.setNombres(request.getNombres());</span>
-<span class="fc" id="L59">        comuneroExistente.setApellidos(request.getApellidos());</span>
-<span class="fc" id="L60">        comuneroExistente.setTipoDocumento(request.getTipoDocumento());</span>
-<span class="fc" id="L61">        comuneroExistente.setNumeroDocumento(request.getNumeroDocumento());</span>
-<span class="fc" id="L62">        comuneroExistente.setTelefono(request.getTelefono());</span>
-<span class="fc" id="L63">        comuneroExistente.setCorreo(request.getCorreo());</span>
-<span class="fc" id="L64">        comuneroExistente.setUbicacion(ubicacion);</span>
+<span class="fc" id="L59">        comuneroExistente.setNombres(request.getNombres());</span>
+<span class="fc" id="L60">        comuneroExistente.setApellidos(request.getApellidos());</span>
+<span class="fc" id="L61">        comuneroExistente.setTipoDocumento(request.getTipoDocumento());</span>
+<span class="fc" id="L62">        comuneroExistente.setNumeroDocumento(request.getNumeroDocumento());</span>
+<span class="fc" id="L63">        comuneroExistente.setTelefono(request.getTelefono());</span>
+<span class="fc" id="L64">        comuneroExistente.setCorreo(request.getCorreo());</span>
+<span class="fc" id="L65">        comuneroExistente.setUbicacion(ubicacion);</span>
 
-<span class="fc" id="L66">        Comunero comuneroActualizado = comuneroRepository.save(comuneroExistente);</span>
-<span class="fc" id="L67">        return comuneroMapper.toResponse(comuneroActualizado);</span>
+<span class="fc" id="L67">        Comunero comuneroActualizado = comuneroRepository.save(comuneroExistente);</span>
+<span class="fc" id="L68">        return comuneroMapper.toResponse(comuneroActualizado);</span>
     }
+
+    @Override
+    @Transactional
+    public ComuneroResponse findByUsuarioEmail(String email) {
+<span class="nc" id="L74">        Comunero comunero = comuneroRepository.findByUsuarioEmail(email)</span>
+<span class="nc" id="L75">                .orElseThrow(() -&gt; new RuntimeException(&quot;Comunero no encontrado&quot;));</span>
+<span class="nc" id="L76">        return comuneroMapper.toResponse(comunero);</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
