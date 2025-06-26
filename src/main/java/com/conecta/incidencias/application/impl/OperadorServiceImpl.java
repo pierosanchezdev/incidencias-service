@@ -3,6 +3,7 @@ package com.conecta.incidencias.application.impl;
 import com.conecta.incidencias.application.OperadorService;
 import com.conecta.incidencias.dto.request.OperadorRequest;
 import com.conecta.incidencias.dto.response.OperadorResponse;
+import com.conecta.incidencias.entity.Comunero;
 import com.conecta.incidencias.entity.Operador;
 import com.conecta.incidencias.entity.Usuario;
 import com.conecta.incidencias.mapper.OperadorMapper;
@@ -10,6 +11,7 @@ import com.conecta.incidencias.repository.OperadorRepository;
 import com.conecta.incidencias.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -51,5 +53,13 @@ public class OperadorServiceImpl implements OperadorService {
 
         Operador operadorActualizado = operadorRepository.save(operadorExistente);
         return operadorMapper.toResponse(operadorActualizado);
+    }
+
+    @Override
+    @Transactional
+    public OperadorResponse findByUsuarioEmail(String email) {
+        Operador operador = operadorRepository.findByUsuarioEmail(email)
+                .orElseThrow(() -> new RuntimeException("Comunero no encontrado"));
+        return operadorMapper.toResponse(operador);
     }
 }

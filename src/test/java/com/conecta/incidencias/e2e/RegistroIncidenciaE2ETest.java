@@ -1,5 +1,6 @@
 package com.conecta.incidencias.e2e;
 
+import com.conecta.incidencias.application.StorageService;
 import com.conecta.incidencias.dto.request.IncidenciaRequest;
 import com.conecta.incidencias.entity.Categoria;
 import com.conecta.incidencias.entity.UbicacionGeografica;
@@ -62,6 +63,8 @@ class RegistroIncidenciaE2ETest {
 
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
+    @MockBean
+    private StorageService storageService;
 
     private Long usuarioId;
     private Long categoriaId;
@@ -140,5 +143,221 @@ class RegistroIncidenciaE2ETest {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    void registrarIncidencia_deberiaRetornar400CuandoArchivoInvalido() throws Exception {
+        // Arrange
+        String token = "fake-jwt-token";
+
+        when(jwtUtils.extraerUsername(token)).thenReturn("testuser");
+        when(jwtUtils.validarToken(eq(token), any())).thenReturn(true);
+
+        UserDetails userDetails = User.withUsername("testuser")
+                .password("password")
+                .authorities(Collections.emptyList())
+                .build();
+
+        when(userDetailsService.loadUserByUsername("testuser")).thenReturn(userDetails);
+
+        IncidenciaRequest incidenciaRequest = new IncidenciaRequest();
+        incidenciaRequest.setTitulo("Incendio sospechoso");
+        incidenciaRequest.setDescripcion("Se detecta humo negro");
+        incidenciaRequest.setUrgencia(Urgencia.MEDIA);
+        incidenciaRequest.setImpacto(Impacto.MEDIO);
+        incidenciaRequest.setCategoriaId(categoriaId);
+        incidenciaRequest.setUsuarioId(usuarioId);
+        incidenciaRequest.setUbicacionId(ubicacionId);
+
+        String datosJson = objectMapper.writeValueAsString(incidenciaRequest);
+
+        MockMultipartFile datosPart = new MockMultipartFile(
+                "datos",
+                "datos",
+                "application/json",
+                datosJson.getBytes(StandardCharsets.UTF_8)
+        );
+
+        // Archivo con extensión .exe y tipo MIME genérico
+        MockMultipartFile archivoInvalido = new MockMultipartFile(
+                "archivos",
+                "malware.exe",
+                "application/octet-stream",
+                "contenido no permitido".getBytes(StandardCharsets.UTF_8)
+        );
+
+        // Act & Assert
+        mockMvc.perform(multipart("/incidencias")
+                        .file(datosPart)
+                        .file(archivoInvalido)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void registrarIncidencia_deberiaRetornar503CuandoFallaStorage() throws Exception {
+        // Arrange
+        String token = "fake-jwt-token";
+
+        when(jwtUtils.extraerUsername(token)).thenReturn("testuser");
+        when(jwtUtils.validarToken(eq(token), any())).thenReturn(true);
+
+        UserDetails userDetails = User.withUsername("testuser")
+                .password("password")
+                .authorities(Collections.emptyList())
+                .build();
+
+        when(userDetailsService.loadUserByUsername("testuser")).thenReturn(userDetails);
+
+        // Simulamos que falla el almacenamiento
+        when(storageService.subirArchivo(any())).thenThrow(new RuntimeException("Falla de disco"));
+
+        IncidenciaRequest incidenciaRequest = new IncidenciaRequest();
+        incidenciaRequest.setTitulo("Corte eléctrico");
+        incidenciaRequest.setDescripcion("No hay energía en la zona");
+        incidenciaRequest.setUrgencia(Urgencia.BAJA);
+        incidenciaRequest.setImpacto(Impacto.BAJO);
+        incidenciaRequest.setCategoriaId(categoriaId);
+        incidenciaRequest.setUsuarioId(usuarioId);
+        incidenciaRequest.setUbicacionId(ubicacionId);
+
+        String datosJson = objectMapper.writeValueAsString(incidenciaRequest);
+
+        MockMultipartFile datosPart = new MockMultipartFile(
+                "datos",
+                "datos",
+                "application/json",
+                datosJson.getBytes(StandardCharsets.UTF_8)
+        );
+
+        MockMultipartFile archivoValido = new MockMultipartFile(
+                "archivos",
+                "foto.png",
+                "image/png",
+                "imagen".getBytes(StandardCharsets.UTF_8)
+        );
+
+        // Act & Assert
+        mockMvc.perform(multipart("/incidencias")
+                        .file(datosPart)
+                        .file(archivoValido)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void registrarIncidencia_deberiaRetornar500CuandoFallaAlGuardarEnBD() throws Exception {
+        String token = "fake-jwt-token";
+
+        when(jwtUtils.extraerUsername(token)).thenReturn("testuser");
+        when(jwtUtils.validarToken(eq(token), any())).thenReturn(true);
+
+        UserDetails userDetails = User.withUsername("testuser")
+                .password("password")
+                .authorities(Collections.emptyList())
+                .build();
+
+        when(userDetailsService.loadUserByUsername("testuser")).thenReturn(userDetails);
+
+        IncidenciaRequest incidenciaRequest = new IncidenciaRequest();
+        incidenciaRequest.setTitulo(null); // 🔥 Provocamos error
+        incidenciaRequest.setDescripcion("Descripción válida");
+        incidenciaRequest.setUrgencia(Urgencia.MEDIA);
+        incidenciaRequest.setImpacto(Impacto.MEDIO);
+        incidenciaRequest.setCategoriaId(categoriaId);
+        incidenciaRequest.setUsuarioId(usuarioId);
+        incidenciaRequest.setUbicacionId(ubicacionId);
+
+        String datosJson = objectMapper.writeValueAsString(incidenciaRequest);
+
+        MockMultipartFile datosPart = new MockMultipartFile(
+                "datos", "datos", "application/json", datosJson.getBytes(StandardCharsets.UTF_8)
+        );
+
+        MockMultipartFile archivoValido = new MockMultipartFile(
+                "archivos", "foto.png", "image/png", "imagen".getBytes(StandardCharsets.UTF_8)
+        );
+
+        mockMvc.perform(multipart("/incidencias")
+                        .file(datosPart)
+                        .file(archivoValido)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void registrarIncidencia_deberiaRetornar401CuandoNoHayToken() throws Exception {
+        IncidenciaRequest incidenciaRequest = new IncidenciaRequest();
+        incidenciaRequest.setTitulo("Incendio forestal");
+        incidenciaRequest.setDescripcion("Zona peligrosa");
+        incidenciaRequest.setUrgencia(Urgencia.ALTA);
+        incidenciaRequest.setImpacto(Impacto.ALTO);
+        incidenciaRequest.setCategoriaId(categoriaId);
+        incidenciaRequest.setUsuarioId(usuarioId);
+        incidenciaRequest.setUbicacionId(ubicacionId);
+
+        String datosJson = objectMapper.writeValueAsString(incidenciaRequest);
+
+        MockMultipartFile datosPart = new MockMultipartFile(
+                "datos", "datos", "application/json", datosJson.getBytes(StandardCharsets.UTF_8)
+        );
+
+        MockMultipartFile archivoValido = new MockMultipartFile(
+                "archivos", "foto.png", "image/png", "imagen".getBytes(StandardCharsets.UTF_8)
+        );
+
+        mockMvc.perform(multipart("/incidencias")
+                        .file(datosPart)
+                        .file(archivoValido)
+                        // ⛔ No se incluye header Authorization
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void registrarIncidencia_deberiaRetornar403CuandoRolNoAutorizado() throws Exception {
+        String token = "fake-jwt-token";
+
+        // Simula JWT válido
+        when(jwtUtils.extraerUsername(token)).thenReturn("testuser");
+        when(jwtUtils.validarToken(eq(token), any())).thenReturn(true);
+
+        // Simula que el usuario tiene rol OPERADOR (no permitido para este endpoint)
+        UserDetails userDetails = User.withUsername("testuser")
+                .password("password")
+                .roles("OPERADOR") // 👈 Rol que no tiene acceso
+                .build();
+
+        when(userDetailsService.loadUserByUsername("testuser")).thenReturn(userDetails);
+
+        IncidenciaRequest incidenciaRequest = new IncidenciaRequest();
+        incidenciaRequest.setTitulo("Incendio forestal");
+        incidenciaRequest.setDescripcion("Zona peligrosa");
+        incidenciaRequest.setUrgencia(Urgencia.ALTA);
+        incidenciaRequest.setImpacto(Impacto.ALTO);
+        incidenciaRequest.setCategoriaId(categoriaId);
+        incidenciaRequest.setUsuarioId(usuarioId);
+        incidenciaRequest.setUbicacionId(ubicacionId);
+
+        String datosJson = objectMapper.writeValueAsString(incidenciaRequest);
+
+        MockMultipartFile datosPart = new MockMultipartFile(
+                "datos", "datos", "application/json", datosJson.getBytes(StandardCharsets.UTF_8)
+        );
+
+        MockMultipartFile archivoValido = new MockMultipartFile(
+                "archivos", "foto.png", "image/png", "imagen".getBytes(StandardCharsets.UTF_8)
+        );
+
+        mockMvc.perform(multipart("/incidencias")
+                        .file(datosPart)
+                        .file(archivoValido)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isForbidden());
+    }
+
 
 }

@@ -105,4 +105,21 @@ class OperadorControllerTest {
                 .andExpect(jsonPath("$.cargo").value("Supervisor"))
                 .andExpect(jsonPath("$.telefono").value("987654321"));
     }
+
+    @Test
+    void obtenerPorEmail_deberiaRetornarOperadorCuandoExiste() throws Exception {
+        // Arrange
+        String email = "juan@example.com";
+        when(operadorService.findByUsuarioEmail(email)).thenReturn(operadorResponse);
+
+        // Act & Assert
+        mockMvc.perform(get("/operadores/email/{email}", email))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.nombres").value("Juan"))
+                .andExpect(jsonPath("$.apellidos").value("Pérez"))
+                .andExpect(jsonPath("$.cargo").value("Supervisor"))
+                .andExpect(jsonPath("$.telefono").value("987654321"));
+    }
+
 }

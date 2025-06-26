@@ -29,10 +29,10 @@ public class ComuneroServiceImpl implements ComuneroService {
     @Override
     public ComuneroResponse crearComunero(ComuneroRequest request) {
 <span class="fc" id="L31">        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())</span>
-<span class="pc" id="L32">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
+<span class="fc" id="L32">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
 
 <span class="fc" id="L34">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
-<span class="pc" id="L35">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
+<span class="fc" id="L35">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
 
 <span class="fc" id="L37">        Comunero comunero = comuneroMapper.toEntity(request);</span>
 <span class="fc" id="L38">        comunero.setUsuario(usuario);</span>
@@ -54,7 +54,7 @@ public class ComuneroServiceImpl implements ComuneroService {
 <span class="fc" id="L54">                .orElseThrow(() -&gt; new RuntimeException(&quot;Comunero no encontrado&quot;));</span>
 
 <span class="fc" id="L56">        UbicacionGeografica ubicacion = ubicacionRepository.findById(request.getUbicacionId())</span>
-<span class="pc" id="L57">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
+<span class="fc" id="L57">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ubicación no encontrada&quot;));</span>
 
 <span class="fc" id="L59">        comuneroExistente.setNombres(request.getNombres());</span>
 <span class="fc" id="L60">        comuneroExistente.setApellidos(request.getApellidos());</span>
@@ -71,9 +71,9 @@ public class ComuneroServiceImpl implements ComuneroService {
     @Override
     @Transactional
     public ComuneroResponse findByUsuarioEmail(String email) {
-<span class="nc" id="L74">        Comunero comunero = comuneroRepository.findByUsuarioEmail(email)</span>
-<span class="nc" id="L75">                .orElseThrow(() -&gt; new RuntimeException(&quot;Comunero no encontrado&quot;));</span>
-<span class="nc" id="L76">        return comuneroMapper.toResponse(comunero);</span>
+<span class="fc" id="L74">        Comunero comunero = comuneroRepository.findByUsuarioEmail(email)</span>
+<span class="fc" id="L75">                .orElseThrow(() -&gt; new RuntimeException(&quot;Comunero no encontrado&quot;));</span>
+<span class="fc" id="L76">        return comuneroMapper.toResponse(comunero);</span>
     }
 
 }

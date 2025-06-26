@@ -108,4 +108,22 @@ class ComuneroControllerTest {
                 .andExpect(jsonPath("$.telefono").value("999888777"))
                 .andExpect(jsonPath("$.correo").value("ana@example.com"));
     }
+
+    @Test
+    void obtenerPorEmail_deberiaRetornarComuneroCuandoExiste() throws Exception {
+        // Arrange
+        String email = "ana@example.com";
+        when(comuneroService.findByUsuarioEmail(email)).thenReturn(comuneroResponse);
+
+        // Act & Assert
+        mockMvc.perform(get("/comuneros/email/{email}", email))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.nombres").value("Ana"))
+                .andExpect(jsonPath("$.apellidos").value("Gonzales"))
+                .andExpect(jsonPath("$.telefono").value("999888777"))
+                .andExpect(jsonPath("$.correo").value("ana@example.com"));
+    }
+
+
 }

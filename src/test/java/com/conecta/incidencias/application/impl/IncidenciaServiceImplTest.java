@@ -1,10 +1,12 @@
 package com.conecta.incidencias.application.impl;
 
 import com.conecta.incidencias.application.StorageService;
+import com.conecta.incidencias.dto.request.ArchivoRequest;
 import com.conecta.incidencias.dto.request.IncidenciaRequest;
 import com.conecta.incidencias.dto.response.IncidenciaResponse;
 import com.conecta.incidencias.entity.*;
 import com.conecta.incidencias.enums.Impacto;
+import com.conecta.incidencias.enums.TipoArchivo;
 import com.conecta.incidencias.enums.Urgencia;
 import com.conecta.incidencias.mapper.ArchivoMapper;
 import com.conecta.incidencias.mapper.IncidenciaMapper;
@@ -16,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -203,4 +206,23 @@ class IncidenciaServiceImplTest {
         // Act & Assert
         assertThrows(RuntimeException.class, () -> incidenciaService.actualizarIncidencia(incidenciaId, request));
     }
+
+    @Test
+    void detectarTipoArchivo_deberiaDetectarImagen() throws Exception {
+        MultipartFile archivoMock = mock(MultipartFile.class);
+        when(archivoMock.getContentType()).thenReturn("image/png");
+
+        Method method = IncidenciaServiceImpl.class.getDeclaredMethod("detectarTipoArchivo", MultipartFile.class);
+        method.setAccessible(true);
+
+        IncidenciaServiceImpl service = new IncidenciaServiceImpl(
+                null, null, null, null, null, null, null, null
+        );
+
+        TipoArchivo tipo = (TipoArchivo) method.invoke(service, archivoMock);
+
+        assertThat(tipo).isEqualTo(TipoArchivo.IMAGEN);
+    }
+
+
 }

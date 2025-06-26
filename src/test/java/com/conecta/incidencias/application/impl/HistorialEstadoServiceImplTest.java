@@ -117,4 +117,22 @@ class HistorialEstadoServiceImplTest {
         assertThat(resultado).hasSize(1);
         assertThat(resultado.get(0).getId()).isEqualTo(1L);
     }
+
+    @Test
+    void registrarCambioEstado_deberiaLanzarExcepcionCuandoOperadorNoExiste() {
+        // Arrange
+        Long incidenciaId = 1L;
+        Long operadorId = 2L;
+        CambioEstadoRequest request = new CambioEstadoRequest();
+
+        Incidencia incidencia = new Incidencia();
+        when(incidenciaRepository.findById(incidenciaId)).thenReturn(Optional.of(incidencia));
+        when(operadorRepository.findById(operadorId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () ->
+                historialEstadoService.registrarCambioEstado(incidenciaId, operadorId, request)
+        );
+    }
+
 }

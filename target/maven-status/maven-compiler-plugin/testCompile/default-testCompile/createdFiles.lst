@@ -7,6 +7,7 @@ com\conecta\incidencias\controller\OperadorControllerTest.class
 com\conecta\incidencias\e2e\RegistroIncidenciaE2ETest.class
 com\conecta\incidencias\IncidenciasServiceApplicationTests.class
 com\conecta\incidencias\application\impl\ArchivoServiceImplTest.class
+com\conecta\incidencias\controller\UbicacionControllerTest.class
 com\conecta\incidencias\application\impl\IncidenciaServiceImplTest.class
 com\conecta\incidencias\mapper\HistorialEstadoMapperTest.class
 com\conecta\incidencias\mapper\UsuarioMapperTest.class
@@ -14,13 +15,18 @@ com\conecta\incidencias\application\impl\OperadorServiceImplTest.class
 com\conecta\incidencias\controller\ArchivoControllerTest.class
 com\conecta\incidencias\application\impl\ComuneroServiceImplTest.class
 com\conecta\incidencias\application\impl\UsuarioServiceImplTest.class
+com\conecta\incidencias\security\AuthenticationServiceTest.class
+com\conecta\incidencias\security\UserDetailsServiceImplTest.class
+com\conecta\incidencias\application\impl\StorageServiceImplTest.class
 com\conecta\incidencias\security\JwtUtilsTest.class
 com\conecta\incidencias\controller\ComuneroControllerTest.class
 com\conecta\incidencias\controller\AuthControllerTest.class
 com\conecta\incidencias\controller\CategoriaControllerTest.class
 com\conecta\incidencias\mapper\CategoriaMapperTest.class
+com\conecta\incidencias\mapper\UbicacionMapperTest.class
 com\conecta\incidencias\mapper\ComuneroMapperTest.class
 com\conecta\incidencias\mapper\IncidenciaMapperTest.class
 com\conecta\incidencias\controller\UsuarioControllerTest.class
 com\conecta\incidencias\controller\IncidenciaControllerTest.class
+com\conecta\incidencias\application\impl\UbicacionServiceImplTest.class
 com\conecta\incidencias\mapper\OperadorMapperTest.class

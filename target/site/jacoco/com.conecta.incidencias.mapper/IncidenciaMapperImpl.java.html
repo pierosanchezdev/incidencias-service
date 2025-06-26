@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
-    date = &quot;2025-05-16T10:53:35-0500&quot;,
+    date = &quot;2025-06-25T10:01:35-0500&quot;,
     comments = &quot;version: 1.5.5.Final, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)&quot;
 )
 @Component
@@ -60,67 +60,99 @@ import org.springframework.stereotype.Component;
 <span class="fc" id="L60">        incidenciaResponse.fechaActualizacion( incidencia.getFechaActualizacion() );</span>
 <span class="fc" id="L61">        incidenciaResponse.usuarioId( incidenciaUsuarioId( incidencia ) );</span>
 <span class="fc" id="L62">        incidenciaResponse.ubicacionId( incidenciaUbicacionId( incidencia ) );</span>
-<span class="fc" id="L63">        incidenciaResponse.archivos( archivoListToArchivoResponseList( incidencia.getArchivos() ) );</span>
+<span class="fc" id="L63">        incidenciaResponse.latitud( incidenciaUbicacionLatitud( incidencia ) );</span>
+<span class="fc" id="L64">        incidenciaResponse.longitud( incidenciaUbicacionLongitud( incidencia ) );</span>
+<span class="fc" id="L65">        incidenciaResponse.archivos( archivoListToArchivoResponseList( incidencia.getArchivos() ) );</span>
 
-<span class="fc" id="L65">        return incidenciaResponse.build();</span>
+<span class="fc" id="L67">        return incidenciaResponse.build();</span>
     }
 
     private Long incidenciaCategoriaId(Incidencia incidencia) {
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
-<span class="nc" id="L70">            return null;</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L72">            return null;</span>
         }
-<span class="fc" id="L72">        Categoria categoria = incidencia.getCategoria();</span>
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if ( categoria == null ) {</span>
-<span class="nc" id="L74">            return null;</span>
+<span class="fc" id="L74">        Categoria categoria = incidencia.getCategoria();</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if ( categoria == null ) {</span>
+<span class="fc" id="L76">            return null;</span>
         }
-<span class="fc" id="L76">        Long id = categoria.getId();</span>
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if ( id == null ) {</span>
-<span class="nc" id="L78">            return null;</span>
+<span class="fc" id="L78">        Long id = categoria.getId();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if ( id == null ) {</span>
+<span class="fc" id="L80">            return null;</span>
         }
-<span class="fc" id="L80">        return id;</span>
+<span class="fc" id="L82">        return id;</span>
     }
 
     private Long incidenciaUsuarioId(Incidencia incidencia) {
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
-<span class="nc" id="L85">            return null;</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L87">            return null;</span>
         }
-<span class="fc" id="L87">        Usuario usuario = incidencia.getUsuario();</span>
-<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
-<span class="nc" id="L89">            return null;</span>
+<span class="fc" id="L89">        Usuario usuario = incidencia.getUsuario();</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if ( usuario == null ) {</span>
+<span class="fc" id="L91">            return null;</span>
         }
-<span class="fc" id="L91">        Long id = usuario.getId();</span>
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if ( id == null ) {</span>
-<span class="nc" id="L93">            return null;</span>
+<span class="fc" id="L93">        Long id = usuario.getId();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if ( id == null ) {</span>
+<span class="fc" id="L95">            return null;</span>
         }
-<span class="fc" id="L95">        return id;</span>
+<span class="fc" id="L97">        return id;</span>
     }
 
     private Long incidenciaUbicacionId(Incidencia incidencia) {
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
-<span class="nc" id="L100">            return null;</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L102">            return null;</span>
         }
-<span class="fc" id="L102">        UbicacionGeografica ubicacion = incidencia.getUbicacion();</span>
-<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="nc" id="L104">            return null;</span>
+<span class="fc" id="L104">        UbicacionGeografica ubicacion = incidencia.getUbicacion();</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L106">            return null;</span>
         }
-<span class="fc" id="L106">        Long id = ubicacion.getId();</span>
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if ( id == null ) {</span>
-<span class="nc" id="L108">            return null;</span>
+<span class="fc" id="L108">        Long id = ubicacion.getId();</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if ( id == null ) {</span>
+<span class="fc" id="L110">            return null;</span>
         }
-<span class="fc" id="L110">        return id;</span>
+<span class="fc" id="L112">        return id;</span>
+    }
+
+    private Double incidenciaUbicacionLatitud(Incidencia incidencia) {
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L117">            return null;</span>
+        }
+<span class="fc" id="L119">        UbicacionGeografica ubicacion = incidencia.getUbicacion();</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L121">            return null;</span>
+        }
+<span class="fc" id="L123">        Double latitud = ubicacion.getLatitud();</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if ( latitud == null ) {</span>
+<span class="fc" id="L125">            return null;</span>
+        }
+<span class="fc" id="L127">        return latitud;</span>
+    }
+
+    private Double incidenciaUbicacionLongitud(Incidencia incidencia) {
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        if ( incidencia == null ) {</span>
+<span class="nc" id="L132">            return null;</span>
+        }
+<span class="fc" id="L134">        UbicacionGeografica ubicacion = incidencia.getUbicacion();</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L136">            return null;</span>
+        }
+<span class="fc" id="L138">        Double longitud = ubicacion.getLongitud();</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">        if ( longitud == null ) {</span>
+<span class="fc" id="L140">            return null;</span>
+        }
+<span class="fc" id="L142">        return longitud;</span>
     }
 
     protected List&lt;ArchivoResponse&gt; archivoListToArchivoResponseList(List&lt;Archivo&gt; list) {
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        if ( list == null ) {</span>
-<span class="fc" id="L115">            return null;</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if ( list == null ) {</span>
+<span class="fc" id="L147">            return null;</span>
         }
 
-<span class="fc" id="L118">        List&lt;ArchivoResponse&gt; list1 = new ArrayList&lt;ArchivoResponse&gt;( list.size() );</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">        for ( Archivo archivo : list ) {</span>
-<span class="fc" id="L120">            list1.add( archivoMapper.toResponse( archivo ) );</span>
-<span class="fc" id="L121">        }</span>
+<span class="fc" id="L150">        List&lt;ArchivoResponse&gt; list1 = new ArrayList&lt;ArchivoResponse&gt;( list.size() );</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        for ( Archivo archivo : list ) {</span>
+<span class="fc" id="L152">            list1.add( archivoMapper.toResponse( archivo ) );</span>
+<span class="fc" id="L153">        }</span>
 
-<span class="fc" id="L123">        return list1;</span>
+<span class="fc" id="L155">        return list1;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

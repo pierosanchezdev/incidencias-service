@@ -121,21 +121,22 @@ public class IncidenciaServiceImpl implements IncidenciaService {
 <span class="fc" id="L121">        incidenciaExistente.setUrgencia(request.getUrgencia());</span>
 <span class="fc" id="L122">        incidenciaExistente.setCategoria(categoria);</span>
 <span class="fc" id="L123">        incidenciaExistente.setUbicacion(ubicacion);</span>
+<span class="fc" id="L124">        incidenciaExistente.setEstado(request.getEstado());</span>
 
-<span class="fc" id="L125">        Incidencia incidenciaActualizada = incidenciaRepository.save(incidenciaExistente);</span>
-<span class="fc" id="L126">        return incidenciaMapper.toResponse(incidenciaActualizada);</span>
+<span class="fc" id="L126">        Incidencia incidenciaActualizada = incidenciaRepository.save(incidenciaExistente);</span>
+<span class="fc" id="L127">        return incidenciaMapper.toResponse(incidenciaActualizada);</span>
     }
 
     private TipoArchivo detectarTipoArchivo(MultipartFile archivo) {
-<span class="fc" id="L130">        String contentType = archivo.getContentType();</span>
-<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        if (contentType != null) {</span>
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">            if (contentType.startsWith(&quot;image/&quot;)) {</span>
-<span class="fc" id="L133">                return TipoArchivo.IMAGEN;</span>
-<span class="nc bnc" id="L134" title="All 2 branches missed.">            } else if (contentType.startsWith(&quot;video/&quot;)) {</span>
-<span class="nc" id="L135">                return TipoArchivo.VIDEO;</span>
+<span class="fc" id="L131">        String contentType = archivo.getContentType();</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if (contentType != null) {</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">            if (contentType.startsWith(&quot;image/&quot;)) {</span>
+<span class="fc" id="L134">                return TipoArchivo.IMAGEN;</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            } else if (contentType.startsWith(&quot;video/&quot;)) {</span>
+<span class="nc" id="L136">                return TipoArchivo.VIDEO;</span>
             }
         }
-<span class="nc" id="L138">        return TipoArchivo.DESCONOCIDO;</span>
+<span class="nc" id="L139">        return TipoArchivo.IMAGEN;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

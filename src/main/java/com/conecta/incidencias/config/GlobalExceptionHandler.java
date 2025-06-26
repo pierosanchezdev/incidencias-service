@@ -1,6 +1,7 @@
 package com.conecta.incidencias.config;
 
 import com.conecta.incidencias.dto.response.ErrorResponse;
+import com.conecta.incidencias.exception.StorageException;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -49,12 +50,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
-        Map<String, Object> respuesta = new HashMap<>();
-        respuesta.put("mensaje", ex.getMessage());
-
-        return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(StorageException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorResponse handleStorageError(StorageException ex) {
+        return new ErrorResponse("Servicio de archivos no disponible", ex.getMessage());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -92,4 +91,13 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleUnhandledExceptions(Exception ex) {
         return new ErrorResponse("Error interno", ex.getMessage());
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("mensaje", ex.getMessage());
+
+        return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+    }
+
 }

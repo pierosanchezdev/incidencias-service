@@ -121,6 +121,7 @@ public class IncidenciaServiceImpl implements IncidenciaService {
         incidenciaExistente.setUrgencia(request.getUrgencia());
         incidenciaExistente.setCategoria(categoria);
         incidenciaExistente.setUbicacion(ubicacion);
+        incidenciaExistente.setEstado(request.getEstado());
 
         Incidencia incidenciaActualizada = incidenciaRepository.save(incidenciaExistente);
         return incidenciaMapper.toResponse(incidenciaActualizada);
@@ -135,6 +136,6 @@ public class IncidenciaServiceImpl implements IncidenciaService {
                 return TipoArchivo.VIDEO;
             }
         }
-        return TipoArchivo.DESCONOCIDO;
+        return TipoArchivo.IMAGEN;
     }
 }

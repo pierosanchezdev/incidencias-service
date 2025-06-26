@@ -14,6 +14,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -85,4 +88,45 @@ class ArchivoControllerTest {
         mockMvc.perform(delete("/archivos/1"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void verArchivo_deberiaRetornarArchivoCuandoExiste() throws Exception {
+        // Arrange
+        Path ruta = Paths.get("uploads/test.txt");
+        Files.createDirectories(ruta.getParent());
+        Files.writeString(ruta, "Contenido de prueba");
+
+        // Act & Assert
+        mockMvc.perform(get("/archivos/ver/uploads/test.txt"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/plain"));
+
+        // Clean up
+        Files.deleteIfExists(ruta);
+    }
+
+    @Test
+    void verArchivo_deberiaRetornarNotFoundCuandoArchivoNoExiste() throws Exception {
+        mockMvc.perform(get("/archivos/ver/uploads/archivo_inexistente.txt"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void verArchivo_deberiaRetornarErrorInternoCuandoFalla() throws Exception {
+        mockMvc.perform(get("/archivos/ver/uploads/../invalid-path.txt"))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void verArchivo_deberiaRetornarErrorInternoCuandoOcurreExcepcion() throws Exception {
+        // Este nombre con caracteres especiales forzará una excepción (nombre inválido para Windows/Linux)
+        String nombreArchivoInvalido = "invalid|file.txt";
+
+        mockMvc.perform(get("/archivos/ver/uploads/" + nombreArchivoInvalido))
+                .andExpect(status().isInternalServerError());
+    }
+
+
+
+
 }

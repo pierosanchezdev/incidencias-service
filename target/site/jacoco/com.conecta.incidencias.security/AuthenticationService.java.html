@@ -16,17 +16,17 @@ public class AuthenticationService {
     private final JwtUtils jwtUtils;
 
     public LoginResponse login(LoginRequest request) {
-<span class="nc" id="L19">        authenticationManager.authenticate(</span>
+<span class="fc" id="L19">        authenticationManager.authenticate(</span>
                 new UsernamePasswordAuthenticationToken(
-<span class="nc" id="L21">                        request.getEmail(),</span>
-<span class="nc" id="L22">                        request.getPassword()</span>
+<span class="fc" id="L21">                        request.getEmail(),</span>
+<span class="fc" id="L22">                        request.getPassword()</span>
                 )
         );
 
-<span class="nc" id="L26">        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());</span>
-<span class="nc" id="L27">        String token = jwtUtils.generarToken(userDetails);</span>
+<span class="fc" id="L26">        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());</span>
+<span class="fc" id="L27">        String token = jwtUtils.generarToken(userDetails);</span>
 
-<span class="nc" id="L29">        return new LoginResponse(token);</span>
+<span class="fc" id="L29">        return new LoginResponse(token);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

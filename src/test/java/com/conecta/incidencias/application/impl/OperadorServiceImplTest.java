@@ -126,4 +126,48 @@ class OperadorServiceImplTest {
         // Act & Assert
         assertThrows(RuntimeException.class, () -> operadorService.actualizarOperador(operadorId, request));
     }
+
+    @Test
+    void findByUsuarioEmail_deberiaRetornarOperadorResponseCuandoExiste() {
+        // Arrange
+        String email = "operador@example.com";
+        Operador operador = new Operador();
+        OperadorResponse responseEsperado = new OperadorResponse();
+        responseEsperado.setEmailUsuario(email);
+
+        when(operadorRepository.findByUsuarioEmail(email)).thenReturn(Optional.of(operador));
+        when(operadorMapper.toResponse(operador)).thenReturn(responseEsperado);
+
+        // Act
+        OperadorResponse resultado = operadorService.findByUsuarioEmail(email);
+
+        // Assert
+        assertThat(resultado).isNotNull();
+        assertThat(resultado.getEmailUsuario()).isEqualTo(email);
+    }
+
+    @Test
+    void findByUsuarioEmail_deberiaLanzarExcepcionCuandoNoExiste() {
+        // Arrange
+        String email = "noexiste@example.com";
+        when(operadorRepository.findByUsuarioEmail(email)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> operadorService.findByUsuarioEmail(email));
+    }
+
+    @Test
+    void crearOperador_deberiaLanzarExcepcionCuandoUsuarioNoExiste() {
+        // Arrange
+        OperadorRequest request = new OperadorRequest();
+        request.setUsuarioId(999L); // ID que no existe
+
+        when(usuarioRepository.findById(999L)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> operadorService.crearOperador(request));
+    }
+
+
+
 }

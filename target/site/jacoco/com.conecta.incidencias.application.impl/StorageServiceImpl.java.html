@@ -27,8 +27,8 @@ import java.util.UUID;
 <span class="fc" id="L27">            String filename = UUID.randomUUID() + &quot;_&quot; + archivo.getOriginalFilename();</span>
 <span class="fc" id="L28">            Files.copy(archivo.getInputStream(), rootLocation.resolve(filename));</span>
 <span class="fc" id="L29">            return &quot;/uploads/&quot; + filename;</span>
-<span class="nc" id="L30">        } catch (IOException e) {</span>
-<span class="nc" id="L31">            throw new RuntimeException(&quot;Error al guardar archivo&quot;, e);</span>
+<span class="fc" id="L30">        } catch (IOException e) {</span>
+<span class="fc" id="L31">            throw new RuntimeException(&quot;Error al guardar archivo&quot;, e);</span>
         }
     }
 }

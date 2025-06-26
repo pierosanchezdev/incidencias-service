@@ -32,8 +32,8 @@ public class IncidenciaController {
 <span class="fc" id="L32">                System.out.println(&quot;Archivo: &quot; + archivo.getOriginalFilename() + &quot;, tipo: &quot; + archivo.getContentType());</span>
 <span class="fc" id="L33">            }</span>
         }
-<span class="fc" id="L35">        incidenciaService.crearIncidencia(request, archivos);</span>
-<span class="fc" id="L36">        return ResponseEntity.status(HttpStatus.CREATED).build();</span>
+<span class="fc" id="L35">        var incidenciaResponse = incidenciaService.crearIncidencia(request, archivos);</span>
+<span class="fc" id="L36">        return ResponseEntity.status(HttpStatus.CREATED).body(incidenciaResponse);</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)

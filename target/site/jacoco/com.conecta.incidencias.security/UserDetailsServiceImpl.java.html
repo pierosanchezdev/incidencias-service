@@ -17,17 +17,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-<span class="nc" id="L20">        Usuario usuario = usuarioRepository.findByEmail(email)</span>
-<span class="nc" id="L21">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;Usuario no encontrado con email: &quot; + email));</span>
+<span class="fc" id="L20">        Usuario usuario = usuarioRepository.findByEmail(email)</span>
+<span class="fc" id="L21">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;Usuario no encontrado con email: &quot; + email));</span>
 
-<span class="nc" id="L23">        return new User(</span>
-<span class="nc" id="L24">                usuario.getEmail(),</span>
-<span class="nc" id="L25">                usuario.getPassword(),</span>
-<span class="nc" id="L26">                usuario.isActivo(),</span>
+<span class="fc" id="L23">        return new User(</span>
+<span class="fc" id="L24">                usuario.getEmail(),</span>
+<span class="fc" id="L25">                usuario.getPassword(),</span>
+<span class="fc" id="L26">                usuario.isActivo(),</span>
                 true,
                 true,
                 true,
-<span class="nc" id="L30">                Collections.singletonList(new SimpleGrantedAuthority(usuario.getRol().name()))</span>
+<span class="fc" id="L30">                Collections.singletonList(new SimpleGrantedAuthority(usuario.getRol().name()))</span>
         );
     }
 }

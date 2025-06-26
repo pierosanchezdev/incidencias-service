@@ -2,9 +2,11 @@ package com.conecta.incidencias.controller;
 
 import com.conecta.incidencias.application.OperadorService;
 import com.conecta.incidencias.dto.request.OperadorRequest;
+import com.conecta.incidencias.dto.response.ComuneroResponse;
 import com.conecta.incidencias.dto.response.OperadorResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -31,4 +33,10 @@ public class OperadorController {
                                                @Valid @RequestBody OperadorRequest request) {
         return operadorService.actualizarOperador(id, request);
     }
+    @GetMapping("/email/{email}")
+    public ResponseEntity<OperadorResponse> obtenerPorEmail(@PathVariable String email) {
+        OperadorResponse response = operadorService.findByUsuarioEmail(email);
+        return ResponseEntity.ok(response);
+    }
+
 }

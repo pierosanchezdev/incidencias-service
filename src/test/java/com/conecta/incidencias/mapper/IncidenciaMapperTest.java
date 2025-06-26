@@ -109,4 +109,67 @@ class IncidenciaMapperTest {
         assertThat(response.getArchivos()).hasSize(1);
         assertThat(response.getArchivos().get(0).getId()).isEqualTo(20L);
     }
+
+    @Test
+    void toResponse_deberiaManejarValoresNulosEnObjetosAnidados() {
+        // Arrange
+        Incidencia incidencia = new Incidencia();
+        incidencia.setId(99L);
+        incidencia.setTitulo("Título incompleto");
+        incidencia.setDescripcion(null);
+        incidencia.setImpacto(Impacto.BAJO);
+        incidencia.setUrgencia(Urgencia.MEDIA);
+        incidencia.setEstado(Estado.RESUELTA);
+        incidencia.setCategoria(null);
+        incidencia.setUsuario(null);
+        incidencia.setUbicacion(null);
+        incidencia.setFechaRegistro(LocalDateTime.now());
+        incidencia.setFechaActualizacion(LocalDateTime.now());
+        incidencia.setArchivos(null);
+
+        // Act
+        IncidenciaResponse response = incidenciaMapper.toResponse(incidencia);
+
+        // Assert
+        assertThat(response).isNotNull();
+        assertThat(response.getId()).isEqualTo(99L);
+        assertThat(response.getTitulo()).isEqualTo("Título incompleto");
+        assertThat(response.getDescripcion()).isNull();
+        assertThat(response.getImpacto()).isEqualTo(Impacto.BAJO);
+        assertThat(response.getUrgencia()).isEqualTo(Urgencia.MEDIA);
+        assertThat(response.getEstado()).isEqualTo(Estado.RESUELTA);
+        assertThat(response.getCategoriaId()).isNull();
+        assertThat(response.getUsuarioId()).isNull();
+        assertThat(response.getUbicacionId()).isNull();
+        assertThat(response.getLatitud()).isNull();
+        assertThat(response.getLongitud()).isNull();
+        assertThat(response.getArchivos()).isNull();
+    }
+
+    @Test
+    void toResponse_deberiaManejarListaVaciaDeArchivos() {
+        // Arrange
+        Incidencia incidencia = new Incidencia();
+        incidencia.setId(2L);
+        incidencia.setTitulo("Sin archivos");
+        incidencia.setDescripcion("Prueba sin archivos");
+        incidencia.setImpacto(Impacto.ALTO);
+        incidencia.setUrgencia(Urgencia.ALTA);
+        incidencia.setEstado(Estado.PENDIENTE);
+        incidencia.setFechaRegistro(LocalDateTime.now());
+        incidencia.setFechaActualizacion(LocalDateTime.now());
+        incidencia.setCategoria(new Categoria());
+        incidencia.setUsuario(new Usuario());
+        incidencia.setUbicacion(new UbicacionGeografica());
+        incidencia.setArchivos(Collections.emptyList());
+
+        // Act
+        IncidenciaResponse response = incidenciaMapper.toResponse(incidencia);
+
+        // Assert
+        assertThat(response).isNotNull();
+        assertThat(response.getArchivos()).isEmpty();
+    }
+
+
 }

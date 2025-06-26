@@ -3,6 +3,7 @@ package com.conecta.incidencias.controller;
 import com.conecta.incidencias.application.IncidenciaService;
 import com.conecta.incidencias.dto.request.IncidenciaRequest;
 import com.conecta.incidencias.dto.response.IncidenciaResponse;
+import com.conecta.incidencias.enums.Estado;
 import com.conecta.incidencias.enums.Impacto;
 import com.conecta.incidencias.enums.Urgencia;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,6 +59,7 @@ class IncidenciaControllerTest {
         incidenciaRequest.setUbicacionId(3L);
         incidenciaRequest.setImpacto(Impacto.ALTO);
         incidenciaRequest.setUrgencia(Urgencia.ALTA);
+        incidenciaRequest.setEstado(Estado.EN_PROCESO);
 
         incidenciaResponse = new IncidenciaResponse();
         incidenciaResponse.setId(1L);

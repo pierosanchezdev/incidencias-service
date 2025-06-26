@@ -19,4 +19,8 @@ public class OperadorResponse {
     private String apellidos;
     private String cargo;
     private String telefono;
+
+    private String emailUsuario;
+    private String username;
+    private String rol;
 }

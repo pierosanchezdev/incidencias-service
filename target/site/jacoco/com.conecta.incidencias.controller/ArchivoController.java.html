@@ -3,8 +3,15 @@
 import com.conecta.incidencias.application.ArchivoService;
 import com.conecta.incidencias.dto.response.ArchivoResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,17 +24,36 @@ public class ArchivoController {
 
     @GetMapping(&quot;/{id}&quot;)
     public Optional&lt;ArchivoResponse&gt; obtenerArchivo(@PathVariable Long id) {
-<span class="fc" id="L20">        return archivoService.obtenerArchivoPorId(id);</span>
+<span class="fc" id="L27">        return archivoService.obtenerArchivoPorId(id);</span>
     }
 
     @GetMapping(&quot;/incidencia/{incidenciaId}&quot;)
     public List&lt;ArchivoResponse&gt; listarArchivosPorIncidencia(@PathVariable Long incidenciaId) {
-<span class="fc" id="L25">        return archivoService.listarArchivosPorIncidencia(incidenciaId);</span>
+<span class="fc" id="L32">        return archivoService.listarArchivosPorIncidencia(incidenciaId);</span>
     }
 
     @DeleteMapping(&quot;/{id}&quot;)
     public void eliminarArchivo(@PathVariable Long id) {
-<span class="fc" id="L30">        archivoService.eliminarArchivo(id);</span>
-<span class="fc" id="L31">    }</span>
+<span class="fc" id="L37">        archivoService.eliminarArchivo(id);</span>
+<span class="fc" id="L38">    }</span>
+
+    @GetMapping(&quot;/ver/uploads/{nombreArchivo:.+}&quot;)
+    public ResponseEntity&lt;Resource&gt; verArchivo(@PathVariable String nombreArchivo) {
+        try {
+<span class="fc" id="L43">            Path rutaArchivo = Paths.get(&quot;uploads&quot;).resolve(nombreArchivo).normalize();</span>
+<span class="fc" id="L44">            Resource recurso = new UrlResource(rutaArchivo.toUri());</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            if (!recurso.exists()) {</span>
+<span class="fc" id="L46">                return ResponseEntity.notFound().build();</span>
+            }
+
+<span class="fc" id="L49">            String contentType = Files.probeContentType(rutaArchivo);</span>
+<span class="fc" id="L50">            return ResponseEntity.ok()</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">                    .contentType(MediaType.parseMediaType(contentType != null ? contentType : &quot;application/octet-stream&quot;))</span>
+<span class="fc" id="L52">                    .body(recurso);</span>
+<span class="fc" id="L53">        } catch (Exception e) {</span>
+<span class="fc" id="L54">            return ResponseEntity.internalServerError().build();</span>
+        }
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

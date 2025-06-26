@@ -39,44 +39,45 @@ public class SecurityConfig {
                         org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
 <span class="fc" id="L40">                .authorizeHttpRequests(auth -&gt; auth</span>
 <span class="fc" id="L41">                        .requestMatchers(&quot;/auth/login&quot;).permitAll()</span>
-<span class="fc" id="L42">                        .requestMatchers(HttpMethod.GET, &quot;/swagger-ui/**&quot;, &quot;/v3/api-docs/**&quot;).permitAll()</span>
-<span class="fc" id="L43">                        .anyRequest().authenticated()</span>
+<span class="fc" id="L42">                        .requestMatchers(&quot;/uploads/**&quot;).permitAll()</span>
+<span class="fc" id="L43">                        .requestMatchers(HttpMethod.GET, &quot;/swagger-ui/**&quot;, &quot;/v3/api-docs/**&quot;).permitAll()</span>
+<span class="fc" id="L44">                        .anyRequest().authenticated()</span>
                 )
-<span class="fc" id="L45">                .authenticationProvider(authenticationProvider())</span>
-<span class="fc" id="L46">                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)</span>
-<span class="fc" id="L47">                .build();</span>
+<span class="fc" id="L46">                .authenticationProvider(authenticationProvider())</span>
+<span class="fc" id="L47">                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)</span>
+<span class="fc" id="L48">                .build();</span>
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-<span class="fc" id="L52">        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();</span>
-<span class="fc" id="L53">        provider.setUserDetailsService(userDetailsServiceImpl);</span>
-<span class="fc" id="L54">        provider.setPasswordEncoder(passwordEncoder());</span>
-<span class="fc" id="L55">        return provider;</span>
+<span class="fc" id="L53">        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();</span>
+<span class="fc" id="L54">        provider.setUserDetailsService(userDetailsServiceImpl);</span>
+<span class="fc" id="L55">        provider.setPasswordEncoder(passwordEncoder());</span>
+<span class="fc" id="L56">        return provider;</span>
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-<span class="fc" id="L60">        CorsConfiguration configuration = new CorsConfiguration();</span>
-<span class="fc" id="L61">        configuration.setAllowedOrigins(Arrays.asList(&quot;http://localhost:4200&quot;));</span>
-<span class="fc" id="L62">        configuration.setAllowedMethods(Arrays.asList(&quot;GET&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;OPTIONS&quot;));</span>
-<span class="fc" id="L63">        configuration.setAllowedHeaders(Arrays.asList(&quot;Authorization&quot;, &quot;Content-Type&quot;));</span>
-<span class="fc" id="L64">        configuration.setAllowCredentials(true);</span>
+<span class="fc" id="L61">        CorsConfiguration configuration = new CorsConfiguration();</span>
+<span class="fc" id="L62">        configuration.setAllowedOrigins(Arrays.asList(&quot;http://localhost:4200&quot;, &quot;http://localhost:4300&quot;));</span>
+<span class="fc" id="L63">        configuration.setAllowedMethods(Arrays.asList(&quot;GET&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;OPTIONS&quot;));</span>
+<span class="fc" id="L64">        configuration.setAllowedHeaders(Arrays.asList(&quot;Authorization&quot;, &quot;Content-Type&quot;));</span>
+<span class="fc" id="L65">        configuration.setAllowCredentials(true);</span>
 
-<span class="fc" id="L66">        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();</span>
-<span class="fc" id="L67">        source.registerCorsConfiguration(&quot;/**&quot;, configuration);</span>
-<span class="fc" id="L68">        return source;</span>
+<span class="fc" id="L67">        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();</span>
+<span class="fc" id="L68">        source.registerCorsConfiguration(&quot;/**&quot;, configuration);</span>
+<span class="fc" id="L69">        return source;</span>
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-<span class="fc" id="L73">        return new BCryptPasswordEncoder();</span>
+<span class="fc" id="L74">        return new BCryptPasswordEncoder();</span>
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {
-<span class="fc" id="L79">        return configuration.getAuthenticationManager();</span>
+<span class="fc" id="L80">        return configuration.getAuthenticationManager();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

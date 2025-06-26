@@ -3,48 +3,117 @@
 import com.conecta.incidencias.dto.request.OperadorRequest;
 import com.conecta.incidencias.dto.response.OperadorResponse;
 import com.conecta.incidencias.entity.Operador;
+import com.conecta.incidencias.entity.Usuario;
+import com.conecta.incidencias.enums.RolUsuario;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
-    date = &quot;2025-05-16T10:53:35-0500&quot;,
+    date = &quot;2025-06-25T10:01:35-0500&quot;,
     comments = &quot;version: 1.5.5.Final, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)&quot;
 )
 @Component
-<span class="fc" id="L15">public class OperadorMapperImpl implements OperadorMapper {</span>
+<span class="fc" id="L17">public class OperadorMapperImpl implements OperadorMapper {</span>
 
     @Override
     public Operador toEntity(OperadorRequest request) {
-<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if ( request == null ) {</span>
-<span class="nc" id="L20">            return null;</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if ( request == null ) {</span>
+<span class="nc" id="L22">            return null;</span>
         }
 
-<span class="fc" id="L23">        Operador.OperadorBuilder operador = Operador.builder();</span>
+<span class="fc" id="L25">        Operador.OperadorBuilder operador = Operador.builder();</span>
 
-<span class="fc" id="L25">        operador.nombres( request.getNombres() );</span>
-<span class="fc" id="L26">        operador.apellidos( request.getApellidos() );</span>
-<span class="fc" id="L27">        operador.cargo( request.getCargo() );</span>
-<span class="fc" id="L28">        operador.telefono( request.getTelefono() );</span>
+<span class="fc" id="L27">        operador.nombres( request.getNombres() );</span>
+<span class="fc" id="L28">        operador.apellidos( request.getApellidos() );</span>
+<span class="fc" id="L29">        operador.cargo( request.getCargo() );</span>
+<span class="fc" id="L30">        operador.telefono( request.getTelefono() );</span>
 
-<span class="fc" id="L30">        return operador.build();</span>
+<span class="fc" id="L32">        return operador.build();</span>
     }
 
     @Override
     public OperadorResponse toResponse(Operador operador) {
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if ( operador == null ) {</span>
-<span class="nc" id="L36">            return null;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if ( operador == null ) {</span>
+<span class="fc" id="L38">            return null;</span>
         }
 
-<span class="fc" id="L39">        OperadorResponse.OperadorResponseBuilder operadorResponse = OperadorResponse.builder();</span>
+<span class="fc" id="L41">        OperadorResponse.OperadorResponseBuilder operadorResponse = OperadorResponse.builder();</span>
 
-<span class="fc" id="L41">        operadorResponse.id( operador.getId() );</span>
-<span class="fc" id="L42">        operadorResponse.nombres( operador.getNombres() );</span>
-<span class="fc" id="L43">        operadorResponse.apellidos( operador.getApellidos() );</span>
-<span class="fc" id="L44">        operadorResponse.cargo( operador.getCargo() );</span>
-<span class="fc" id="L45">        operadorResponse.telefono( operador.getTelefono() );</span>
+<span class="fc" id="L43">        operadorResponse.emailUsuario( operadorUsuarioEmail( operador ) );</span>
+<span class="fc" id="L44">        operadorResponse.username( operadorUsuarioUsername( operador ) );</span>
+<span class="fc" id="L45">        RolUsuario rol = operadorUsuarioRol( operador );</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        if ( rol != null ) {</span>
+<span class="nc" id="L47">            operadorResponse.rol( rol.name() );</span>
+        }
+<span class="fc" id="L49">        operadorResponse.usuarioId( operadorUsuarioId( operador ) );</span>
+<span class="fc" id="L50">        operadorResponse.id( operador.getId() );</span>
+<span class="fc" id="L51">        operadorResponse.nombres( operador.getNombres() );</span>
+<span class="fc" id="L52">        operadorResponse.apellidos( operador.getApellidos() );</span>
+<span class="fc" id="L53">        operadorResponse.cargo( operador.getCargo() );</span>
+<span class="fc" id="L54">        operadorResponse.telefono( operador.getTelefono() );</span>
 
-<span class="fc" id="L47">        return operadorResponse.build();</span>
+<span class="fc" id="L56">        return operadorResponse.build();</span>
+    }
+
+    private String operadorUsuarioEmail(Operador operador) {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if ( operador == null ) {</span>
+<span class="nc" id="L61">            return null;</span>
+        }
+<span class="fc" id="L63">        Usuario usuario = operador.getUsuario();</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
+<span class="fc" id="L65">            return null;</span>
+        }
+<span class="nc" id="L67">        String email = usuario.getEmail();</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if ( email == null ) {</span>
+<span class="nc" id="L69">            return null;</span>
+        }
+<span class="nc" id="L71">        return email;</span>
+    }
+
+    private String operadorUsuarioUsername(Operador operador) {
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if ( operador == null ) {</span>
+<span class="nc" id="L76">            return null;</span>
+        }
+<span class="fc" id="L78">        Usuario usuario = operador.getUsuario();</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
+<span class="fc" id="L80">            return null;</span>
+        }
+<span class="nc" id="L82">        String username = usuario.getUsername();</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if ( username == null ) {</span>
+<span class="nc" id="L84">            return null;</span>
+        }
+<span class="nc" id="L86">        return username;</span>
+    }
+
+    private RolUsuario operadorUsuarioRol(Operador operador) {
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if ( operador == null ) {</span>
+<span class="nc" id="L91">            return null;</span>
+        }
+<span class="fc" id="L93">        Usuario usuario = operador.getUsuario();</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
+<span class="fc" id="L95">            return null;</span>
+        }
+<span class="nc" id="L97">        RolUsuario rol = usuario.getRol();</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if ( rol == null ) {</span>
+<span class="nc" id="L99">            return null;</span>
+        }
+<span class="nc" id="L101">        return rol;</span>
+    }
+
+    private Long operadorUsuarioId(Operador operador) {
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        if ( operador == null ) {</span>
+<span class="nc" id="L106">            return null;</span>
+        }
+<span class="fc" id="L108">        Usuario usuario = operador.getUsuario();</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
+<span class="fc" id="L110">            return null;</span>
+        }
+<span class="nc" id="L112">        Long id = usuario.getId();</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if ( id == null ) {</span>
+<span class="nc" id="L114">            return null;</span>
+        }
+<span class="nc" id="L116">        return id;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

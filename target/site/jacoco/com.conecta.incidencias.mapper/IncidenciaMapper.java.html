@@ -37,20 +37,22 @@ public interface IncidenciaMapper {
             @Mapping(target = &quot;fechaActualizacion&quot;, source = &quot;fechaActualizacion&quot;),
             @Mapping(target = &quot;usuarioId&quot;, source = &quot;usuario.id&quot;),
             @Mapping(target = &quot;ubicacionId&quot;, source = &quot;ubicacion.id&quot;),
+            @Mapping(target = &quot;latitud&quot;, source = &quot;ubicacion.latitud&quot;),
+            @Mapping(target = &quot;longitud&quot;, source = &quot;ubicacion.longitud&quot;),
             @Mapping(target = &quot;archivos&quot;, source = &quot;archivos&quot;)
     })
     IncidenciaResponse toResponse(Incidencia incidencia);
 
     default Estado incidenciaEstado(Incidencia incidencia) {
-<span class="nc" id="L45">        return incidencia.getEstado();</span>
+<span class="nc" id="L47">        return incidencia.getEstado();</span>
     }
 
     default Impacto incidenciaImpacto(Incidencia incidencia) {
-<span class="nc" id="L49">        return incidencia.getImpacto();</span>
+<span class="nc" id="L51">        return incidencia.getImpacto();</span>
     }
 
     default Urgencia incidenciaUrgencia(Incidencia incidencia) {
-<span class="nc" id="L53">        return incidencia.getUrgencia();</span>
+<span class="nc" id="L55">        return incidencia.getUrgencia();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

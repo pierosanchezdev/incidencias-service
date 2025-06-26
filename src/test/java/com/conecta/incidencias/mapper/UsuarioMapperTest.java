@@ -55,4 +55,35 @@ class UsuarioMapperTest {
         assertThat(response.getId()).isEqualTo(1L);
         assertThat(response.getEmail()).isEqualTo("test@example.com");
     }
+
+    @Test
+    void toResponse_deberiaMapearCampoActivoCorrectamente() {
+        // Arrange
+        Usuario usuario = new Usuario();
+        usuario.setId(2L);
+        usuario.setUsername("operador2");
+        usuario.setEmail("op@example.com");
+        usuario.setPassword("secreto");
+        usuario.setRol(RolUsuario.OPERADOR);
+        usuario.setActivo(true);
+
+        // Act
+        UsuarioResponse response = usuarioMapper.toResponse(usuario);
+
+        // Assert
+        assertThat(response).isNotNull();
+        assertThat(response.getId()).isEqualTo(2L);
+        assertThat(response.getUsername()).isEqualTo("operador2");
+        assertThat(response.getEmail()).isEqualTo("op@example.com");
+        assertThat(response.getRol()).isEqualTo(RolUsuario.OPERADOR);
+        assertThat(response.isActivo()).isTrue();
+    }
+
+    @Test
+    void toResponse_deberiaRetornarNullSiUsuarioEsNull() {
+        UsuarioResponse response = usuarioMapper.toResponse(null);
+        assertThat(response).isNull();
+    }
+
+
 }

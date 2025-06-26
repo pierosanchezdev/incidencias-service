@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
-    date = &quot;2025-05-16T10:53:35-0500&quot;,
+    date = &quot;2025-06-25T10:01:35-0500&quot;,
     comments = &quot;version: 1.5.5.Final, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)&quot;
 )
 @Component
@@ -32,8 +32,8 @@ import org.springframework.stereotype.Component;
 
     @Override
     public UsuarioResponse toResponse(Usuario usuario) {
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
-<span class="nc" id="L36">            return null;</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if ( usuario == null ) {</span>
+<span class="fc" id="L36">            return null;</span>
         }
 
 <span class="fc" id="L39">        UsuarioResponse.UsuarioResponseBuilder usuarioResponse = UsuarioResponse.builder();</span>

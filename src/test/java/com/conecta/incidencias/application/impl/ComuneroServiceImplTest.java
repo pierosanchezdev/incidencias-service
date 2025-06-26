@@ -140,4 +140,80 @@ class ComuneroServiceImplTest {
         // Act & Assert
         assertThrows(RuntimeException.class, () -> comuneroService.actualizarComunero(comuneroId, request));
     }
+
+    @Test
+    void crearComunero_deberiaLanzarExcepcionCuandoUsuarioNoExiste() {
+        // Arrange
+        ComuneroRequest request = new ComuneroRequest();
+        request.setUsuarioId(1L);
+
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> comuneroService.crearComunero(request));
+    }
+
+    @Test
+    void crearComunero_deberiaLanzarExcepcionCuandoUbicacionNoExiste() {
+        // Arrange
+        ComuneroRequest request = new ComuneroRequest();
+        request.setUsuarioId(1L);
+        request.setUbicacionId(99L);
+
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(new Usuario()));
+        when(ubicacionRepository.findById(99L)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> comuneroService.crearComunero(request));
+    }
+
+    @Test
+    void findByUsuarioEmail_deberiaRetornarComuneroCuandoExiste() {
+        // Arrange
+        String email = "comunero@example.com";
+        Comunero comunero = new Comunero();
+        ComuneroResponse response = new ComuneroResponse();
+        response.setEmailUsuario(email);
+
+        when(comuneroRepository.findByUsuarioEmail(email)).thenReturn(Optional.of(comunero));
+        when(comuneroMapper.toResponse(comunero)).thenReturn(response);
+
+        // Act
+        ComuneroResponse resultado = comuneroService.findByUsuarioEmail(email);
+
+        // Assert
+        assertThat(resultado).isNotNull();
+        assertThat(resultado.getEmailUsuario()).isEqualTo(email);
+    }
+
+    @Test
+    void findByUsuarioEmail_deberiaLanzarExcepcionCuandoNoExiste() {
+        // Arrange
+        String email = "inexistente@example.com";
+        when(comuneroRepository.findByUsuarioEmail(email)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> comuneroService.findByUsuarioEmail(email));
+    }
+
+    @Test
+    void actualizarComunero_deberiaLanzarExcepcionCuandoUbicacionNoExiste() {
+        // Arrange
+        Long comuneroId = 1L;
+        Long ubicacionIdInexistente = 999L;
+
+        ComuneroRequest request = new ComuneroRequest();
+        request.setUbicacionId(ubicacionIdInexistente);
+
+        Comunero comuneroExistente = new Comunero();
+        when(comuneroRepository.findById(comuneroId)).thenReturn(Optional.of(comuneroExistente));
+        when(ubicacionRepository.findById(ubicacionIdInexistente)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> comuneroService.actualizarComunero(comuneroId, request));
+    }
+
+
+
+
 }

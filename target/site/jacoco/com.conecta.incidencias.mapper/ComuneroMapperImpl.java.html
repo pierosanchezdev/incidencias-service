@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
-    date = &quot;2025-05-16T10:53:35-0500&quot;,
+    date = &quot;2025-06-25T10:01:35-0500&quot;,
     comments = &quot;version: 1.5.5.Final, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)&quot;
 )
 @Component
@@ -46,191 +46,207 @@ import org.springframework.stereotype.Component;
 <span class="fc" id="L46">        comuneroResponse.emailUsuario( comuneroUsuarioEmail( comunero ) );</span>
 <span class="fc" id="L47">        comuneroResponse.username( comuneroUsuarioUsername( comunero ) );</span>
 <span class="fc" id="L48">        RolUsuario rol = comuneroUsuarioRol( comunero );</span>
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if ( rol != null ) {</span>
-<span class="nc" id="L50">            comuneroResponse.rol( rol.name() );</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if ( rol != null ) {</span>
+<span class="fc" id="L50">            comuneroResponse.rol( rol.name() );</span>
         }
-<span class="fc" id="L52">        comuneroResponse.pais( comuneroUbicacionPais( comunero ) );</span>
-<span class="fc" id="L53">        comuneroResponse.departamento( comuneroUbicacionDepartamento( comunero ) );</span>
-<span class="fc" id="L54">        comuneroResponse.provincia( comuneroUbicacionProvincia( comunero ) );</span>
-<span class="fc" id="L55">        comuneroResponse.distrito( comuneroUbicacionDistrito( comunero ) );</span>
-<span class="fc" id="L56">        comuneroResponse.ubigeo( comuneroUbicacionUbigeo( comunero ) );</span>
-<span class="fc" id="L57">        comuneroResponse.nombreLocalidad( comuneroUbicacionNombreLocalidad( comunero ) );</span>
-<span class="fc" id="L58">        comuneroResponse.latitud( comuneroUbicacionLatitud( comunero ) );</span>
-<span class="fc" id="L59">        comuneroResponse.longitud( comuneroUbicacionLongitud( comunero ) );</span>
-<span class="fc" id="L60">        comuneroResponse.id( comunero.getId() );</span>
-<span class="fc" id="L61">        comuneroResponse.nombres( comunero.getNombres() );</span>
-<span class="fc" id="L62">        comuneroResponse.apellidos( comunero.getApellidos() );</span>
-<span class="fc" id="L63">        comuneroResponse.tipoDocumento( comunero.getTipoDocumento() );</span>
-<span class="fc" id="L64">        comuneroResponse.numeroDocumento( comunero.getNumeroDocumento() );</span>
-<span class="fc" id="L65">        comuneroResponse.telefono( comunero.getTelefono() );</span>
-<span class="fc" id="L66">        comuneroResponse.correo( comunero.getCorreo() );</span>
+<span class="fc" id="L52">        comuneroResponse.usuarioId( comuneroUsuarioId( comunero ) );</span>
+<span class="fc" id="L53">        comuneroResponse.pais( comuneroUbicacionPais( comunero ) );</span>
+<span class="fc" id="L54">        comuneroResponse.departamento( comuneroUbicacionDepartamento( comunero ) );</span>
+<span class="fc" id="L55">        comuneroResponse.provincia( comuneroUbicacionProvincia( comunero ) );</span>
+<span class="fc" id="L56">        comuneroResponse.distrito( comuneroUbicacionDistrito( comunero ) );</span>
+<span class="fc" id="L57">        comuneroResponse.ubigeo( comuneroUbicacionUbigeo( comunero ) );</span>
+<span class="fc" id="L58">        comuneroResponse.nombreLocalidad( comuneroUbicacionNombreLocalidad( comunero ) );</span>
+<span class="fc" id="L59">        comuneroResponse.latitud( comuneroUbicacionLatitud( comunero ) );</span>
+<span class="fc" id="L60">        comuneroResponse.longitud( comuneroUbicacionLongitud( comunero ) );</span>
+<span class="fc" id="L61">        comuneroResponse.id( comunero.getId() );</span>
+<span class="fc" id="L62">        comuneroResponse.nombres( comunero.getNombres() );</span>
+<span class="fc" id="L63">        comuneroResponse.apellidos( comunero.getApellidos() );</span>
+<span class="fc" id="L64">        comuneroResponse.tipoDocumento( comunero.getTipoDocumento() );</span>
+<span class="fc" id="L65">        comuneroResponse.numeroDocumento( comunero.getNumeroDocumento() );</span>
+<span class="fc" id="L66">        comuneroResponse.telefono( comunero.getTelefono() );</span>
+<span class="fc" id="L67">        comuneroResponse.correo( comunero.getCorreo() );</span>
 
-<span class="fc" id="L68">        return comuneroResponse.build();</span>
+<span class="fc" id="L69">        return comuneroResponse.build();</span>
     }
 
     private String comuneroUsuarioEmail(Comunero comunero) {
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L73">            return null;</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L74">            return null;</span>
         }
-<span class="fc" id="L75">        Usuario usuario = comunero.getUsuario();</span>
-<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
-<span class="fc" id="L77">            return null;</span>
+<span class="fc" id="L76">        Usuario usuario = comunero.getUsuario();</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if ( usuario == null ) {</span>
+<span class="fc" id="L78">            return null;</span>
         }
-<span class="nc" id="L79">        String email = usuario.getEmail();</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if ( email == null ) {</span>
-<span class="nc" id="L81">            return null;</span>
+<span class="fc" id="L80">        String email = usuario.getEmail();</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        if ( email == null ) {</span>
+<span class="nc" id="L82">            return null;</span>
         }
-<span class="nc" id="L83">        return email;</span>
+<span class="fc" id="L84">        return email;</span>
     }
 
     private String comuneroUsuarioUsername(Comunero comunero) {
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L88">            return null;</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L89">            return null;</span>
         }
-<span class="fc" id="L90">        Usuario usuario = comunero.getUsuario();</span>
-<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
-<span class="fc" id="L92">            return null;</span>
+<span class="fc" id="L91">        Usuario usuario = comunero.getUsuario();</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if ( usuario == null ) {</span>
+<span class="fc" id="L93">            return null;</span>
         }
-<span class="nc" id="L94">        String username = usuario.getUsername();</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">        if ( username == null ) {</span>
-<span class="nc" id="L96">            return null;</span>
+<span class="fc" id="L95">        String username = usuario.getUsername();</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if ( username == null ) {</span>
+<span class="nc" id="L97">            return null;</span>
         }
-<span class="nc" id="L98">        return username;</span>
+<span class="fc" id="L99">        return username;</span>
     }
 
     private RolUsuario comuneroUsuarioRol(Comunero comunero) {
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L103">            return null;</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L104">            return null;</span>
         }
-<span class="fc" id="L105">        Usuario usuario = comunero.getUsuario();</span>
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if ( usuario == null ) {</span>
-<span class="fc" id="L107">            return null;</span>
+<span class="fc" id="L106">        Usuario usuario = comunero.getUsuario();</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if ( usuario == null ) {</span>
+<span class="fc" id="L108">            return null;</span>
         }
-<span class="nc" id="L109">        RolUsuario rol = usuario.getRol();</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">        if ( rol == null ) {</span>
-<span class="nc" id="L111">            return null;</span>
+<span class="fc" id="L110">        RolUsuario rol = usuario.getRol();</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if ( rol == null ) {</span>
+<span class="nc" id="L112">            return null;</span>
         }
-<span class="nc" id="L113">        return rol;</span>
+<span class="fc" id="L114">        return rol;</span>
+    }
+
+    private Long comuneroUsuarioId(Comunero comunero) {
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L119">            return null;</span>
+        }
+<span class="fc" id="L121">        Usuario usuario = comunero.getUsuario();</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if ( usuario == null ) {</span>
+<span class="fc" id="L123">            return null;</span>
+        }
+<span class="fc" id="L125">        Long id = usuario.getId();</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        if ( id == null ) {</span>
+<span class="nc" id="L127">            return null;</span>
+        }
+<span class="fc" id="L129">        return id;</span>
     }
 
     private String comuneroUbicacionPais(Comunero comunero) {
-<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L118">            return null;</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L134">            return null;</span>
         }
-<span class="fc" id="L120">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
-<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="fc" id="L122">            return null;</span>
+<span class="fc" id="L136">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L138">            return null;</span>
         }
-<span class="nc" id="L124">        String pais = ubicacion.getPais();</span>
-<span class="nc bnc" id="L125" title="All 2 branches missed.">        if ( pais == null ) {</span>
-<span class="nc" id="L126">            return null;</span>
+<span class="fc" id="L140">        String pais = ubicacion.getPais();</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if ( pais == null ) {</span>
+<span class="nc" id="L142">            return null;</span>
         }
-<span class="nc" id="L128">        return pais;</span>
+<span class="fc" id="L144">        return pais;</span>
     }
 
     private String comuneroUbicacionDepartamento(Comunero comunero) {
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L133">            return null;</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L149">            return null;</span>
         }
-<span class="fc" id="L135">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="fc" id="L137">            return null;</span>
+<span class="fc" id="L151">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L153">            return null;</span>
         }
-<span class="nc" id="L139">        String departamento = ubicacion.getDepartamento();</span>
-<span class="nc bnc" id="L140" title="All 2 branches missed.">        if ( departamento == null ) {</span>
-<span class="nc" id="L141">            return null;</span>
+<span class="fc" id="L155">        String departamento = ubicacion.getDepartamento();</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if ( departamento == null ) {</span>
+<span class="nc" id="L157">            return null;</span>
         }
-<span class="nc" id="L143">        return departamento;</span>
+<span class="fc" id="L159">        return departamento;</span>
     }
 
     private String comuneroUbicacionProvincia(Comunero comunero) {
-<span class="pc bpc" id="L147" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L148">            return null;</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L164">            return null;</span>
         }
-<span class="fc" id="L150">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="fc" id="L152">            return null;</span>
+<span class="fc" id="L166">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L168">            return null;</span>
         }
-<span class="nc" id="L154">        String provincia = ubicacion.getProvincia();</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">        if ( provincia == null ) {</span>
-<span class="nc" id="L156">            return null;</span>
+<span class="fc" id="L170">        String provincia = ubicacion.getProvincia();</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if ( provincia == null ) {</span>
+<span class="nc" id="L172">            return null;</span>
         }
-<span class="nc" id="L158">        return provincia;</span>
+<span class="fc" id="L174">        return provincia;</span>
     }
 
     private String comuneroUbicacionDistrito(Comunero comunero) {
-<span class="pc bpc" id="L162" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L163">            return null;</span>
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L179">            return null;</span>
         }
-<span class="fc" id="L165">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
-<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="fc" id="L167">            return null;</span>
+<span class="fc" id="L181">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L183">            return null;</span>
         }
-<span class="nc" id="L169">        String distrito = ubicacion.getDistrito();</span>
-<span class="nc bnc" id="L170" title="All 2 branches missed.">        if ( distrito == null ) {</span>
-<span class="nc" id="L171">            return null;</span>
+<span class="fc" id="L185">        String distrito = ubicacion.getDistrito();</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if ( distrito == null ) {</span>
+<span class="nc" id="L187">            return null;</span>
         }
-<span class="nc" id="L173">        return distrito;</span>
+<span class="fc" id="L189">        return distrito;</span>
     }
 
     private String comuneroUbicacionUbigeo(Comunero comunero) {
-<span class="pc bpc" id="L177" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L178">            return null;</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L194">            return null;</span>
         }
-<span class="fc" id="L180">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
-<span class="pc bpc" id="L181" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="fc" id="L182">            return null;</span>
+<span class="fc" id="L196">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L198">            return null;</span>
         }
-<span class="nc" id="L184">        String ubigeo = ubicacion.getUbigeo();</span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">        if ( ubigeo == null ) {</span>
-<span class="nc" id="L186">            return null;</span>
+<span class="fc" id="L200">        String ubigeo = ubicacion.getUbigeo();</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if ( ubigeo == null ) {</span>
+<span class="nc" id="L202">            return null;</span>
         }
-<span class="nc" id="L188">        return ubigeo;</span>
+<span class="fc" id="L204">        return ubigeo;</span>
     }
 
     private String comuneroUbicacionNombreLocalidad(Comunero comunero) {
-<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L193">            return null;</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L209">            return null;</span>
         }
-<span class="fc" id="L195">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
-<span class="pc bpc" id="L196" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="fc" id="L197">            return null;</span>
+<span class="fc" id="L211">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L213">            return null;</span>
         }
-<span class="nc" id="L199">        String nombreLocalidad = ubicacion.getNombreLocalidad();</span>
-<span class="nc bnc" id="L200" title="All 2 branches missed.">        if ( nombreLocalidad == null ) {</span>
-<span class="nc" id="L201">            return null;</span>
+<span class="fc" id="L215">        String nombreLocalidad = ubicacion.getNombreLocalidad();</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">        if ( nombreLocalidad == null ) {</span>
+<span class="nc" id="L217">            return null;</span>
         }
-<span class="nc" id="L203">        return nombreLocalidad;</span>
+<span class="fc" id="L219">        return nombreLocalidad;</span>
     }
 
     private Double comuneroUbicacionLatitud(Comunero comunero) {
-<span class="pc bpc" id="L207" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L208">            return null;</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L224">            return null;</span>
         }
-<span class="fc" id="L210">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
-<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="fc" id="L212">            return null;</span>
+<span class="fc" id="L226">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L228">            return null;</span>
         }
-<span class="nc" id="L214">        Double latitud = ubicacion.getLatitud();</span>
-<span class="nc bnc" id="L215" title="All 2 branches missed.">        if ( latitud == null ) {</span>
-<span class="nc" id="L216">            return null;</span>
+<span class="fc" id="L230">        Double latitud = ubicacion.getLatitud();</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">        if ( latitud == null ) {</span>
+<span class="nc" id="L232">            return null;</span>
         }
-<span class="nc" id="L218">        return latitud;</span>
+<span class="fc" id="L234">        return latitud;</span>
     }
 
     private Double comuneroUbicacionLongitud(Comunero comunero) {
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
-<span class="nc" id="L223">            return null;</span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">        if ( comunero == null ) {</span>
+<span class="nc" id="L239">            return null;</span>
         }
-<span class="fc" id="L225">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
-<span class="pc bpc" id="L226" title="1 of 2 branches missed.">        if ( ubicacion == null ) {</span>
-<span class="fc" id="L227">            return null;</span>
+<span class="fc" id="L241">        UbicacionGeografica ubicacion = comunero.getUbicacion();</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        if ( ubicacion == null ) {</span>
+<span class="fc" id="L243">            return null;</span>
         }
-<span class="nc" id="L229">        Double longitud = ubicacion.getLongitud();</span>
-<span class="nc bnc" id="L230" title="All 2 branches missed.">        if ( longitud == null ) {</span>
-<span class="nc" id="L231">            return null;</span>
+<span class="fc" id="L245">        Double longitud = ubicacion.getLongitud();</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if ( longitud == null ) {</span>
+<span class="nc" id="L247">            return null;</span>
         }
-<span class="nc" id="L233">        return longitud;</span>
+<span class="fc" id="L249">        return longitud;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

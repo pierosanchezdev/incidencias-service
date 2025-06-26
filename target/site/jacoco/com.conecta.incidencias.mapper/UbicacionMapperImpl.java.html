@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
-    date = &quot;2025-05-16T10:53:35-0500&quot;,
+    date = &quot;2025-06-25T10:01:35-0500&quot;,
     comments = &quot;version: 1.5.5.Final, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)&quot;
 )
 @Component
@@ -15,27 +15,27 @@ import org.springframework.stereotype.Component;
 
     @Override
     public UbicacionGeografica toEntity(UbicacionRequest request) {
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        if ( request == null ) {</span>
-<span class="nc" id="L19">            return null;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if ( request == null ) {</span>
+<span class="fc" id="L19">            return null;</span>
         }
 
-<span class="nc" id="L22">        UbicacionGeografica.UbicacionGeograficaBuilder ubicacionGeografica = UbicacionGeografica.builder();</span>
+<span class="fc" id="L22">        UbicacionGeografica.UbicacionGeograficaBuilder ubicacionGeografica = UbicacionGeografica.builder();</span>
 
-<span class="nc" id="L24">        ubicacionGeografica.pais( request.getPais() );</span>
-<span class="nc" id="L25">        ubicacionGeografica.departamento( request.getDepartamento() );</span>
-<span class="nc" id="L26">        ubicacionGeografica.provincia( request.getProvincia() );</span>
-<span class="nc" id="L27">        ubicacionGeografica.distrito( request.getDistrito() );</span>
-<span class="nc" id="L28">        ubicacionGeografica.ubigeo( request.getUbigeo() );</span>
-<span class="nc" id="L29">        ubicacionGeografica.codigoPostal( request.getCodigoPostal() );</span>
-<span class="nc" id="L30">        ubicacionGeografica.nombreLocalidad( request.getNombreLocalidad() );</span>
-<span class="nc bnc" id="L31" title="All 2 branches missed.">        if ( request.getLatitud() != null ) {</span>
-<span class="nc" id="L32">            ubicacionGeografica.latitud( request.getLatitud().doubleValue() );</span>
+<span class="fc" id="L24">        ubicacionGeografica.pais( request.getPais() );</span>
+<span class="fc" id="L25">        ubicacionGeografica.departamento( request.getDepartamento() );</span>
+<span class="fc" id="L26">        ubicacionGeografica.provincia( request.getProvincia() );</span>
+<span class="fc" id="L27">        ubicacionGeografica.distrito( request.getDistrito() );</span>
+<span class="fc" id="L28">        ubicacionGeografica.ubigeo( request.getUbigeo() );</span>
+<span class="fc" id="L29">        ubicacionGeografica.codigoPostal( request.getCodigoPostal() );</span>
+<span class="fc" id="L30">        ubicacionGeografica.nombreLocalidad( request.getNombreLocalidad() );</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if ( request.getLatitud() != null ) {</span>
+<span class="fc" id="L32">            ubicacionGeografica.latitud( request.getLatitud().doubleValue() );</span>
         }
-<span class="nc bnc" id="L34" title="All 2 branches missed.">        if ( request.getLongitud() != null ) {</span>
-<span class="nc" id="L35">            ubicacionGeografica.longitud( request.getLongitud().doubleValue() );</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if ( request.getLongitud() != null ) {</span>
+<span class="fc" id="L35">            ubicacionGeografica.longitud( request.getLongitud().doubleValue() );</span>
         }
 
-<span class="nc" id="L38">        return ubicacionGeografica.build();</span>
+<span class="fc" id="L38">        return ubicacionGeografica.build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

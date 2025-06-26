@@ -3,6 +3,7 @@
 import com.conecta.incidencias.application.OperadorService;
 import com.conecta.incidencias.dto.request.OperadorRequest;
 import com.conecta.incidencias.dto.response.OperadorResponse;
+import com.conecta.incidencias.entity.Comunero;
 import com.conecta.incidencias.entity.Operador;
 import com.conecta.incidencias.entity.Usuario;
 import com.conecta.incidencias.mapper.OperadorMapper;
@@ -10,6 +11,7 @@ import com.conecta.incidencias.repository.OperadorRepository;
 import com.conecta.incidencias.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -23,34 +25,42 @@ public class OperadorServiceImpl implements OperadorService {
 
     @Override
     public OperadorResponse crearOperador(OperadorRequest request) {
-<span class="fc" id="L26">        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())</span>
-<span class="pc" id="L27">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
+<span class="fc" id="L28">        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())</span>
+<span class="fc" id="L29">                .orElseThrow(() -&gt; new RuntimeException(&quot;Usuario no encontrado&quot;));</span>
 
-<span class="fc" id="L29">        Operador operador = operadorMapper.toEntity(request);</span>
-<span class="fc" id="L30">        operador.setUsuario(usuario);</span>
+<span class="fc" id="L31">        Operador operador = operadorMapper.toEntity(request);</span>
+<span class="fc" id="L32">        operador.setUsuario(usuario);</span>
 
-<span class="fc" id="L32">        Operador operadorGuardado = operadorRepository.save(operador);</span>
-<span class="fc" id="L33">        return operadorMapper.toResponse(operadorGuardado);</span>
+<span class="fc" id="L34">        Operador operadorGuardado = operadorRepository.save(operador);</span>
+<span class="fc" id="L35">        return operadorMapper.toResponse(operadorGuardado);</span>
     }
 
     @Override
     public Optional&lt;OperadorResponse&gt; obtenerOperadorPorId(Long id) {
-<span class="fc" id="L38">        return operadorRepository.findById(id)</span>
-<span class="fc" id="L39">                .map(operadorMapper::toResponse);</span>
+<span class="fc" id="L40">        return operadorRepository.findById(id)</span>
+<span class="fc" id="L41">                .map(operadorMapper::toResponse);</span>
     }
 
     @Override
     public OperadorResponse actualizarOperador(Long id, OperadorRequest request) {
-<span class="fc" id="L44">        Operador operadorExistente = operadorRepository.findById(id)</span>
-<span class="fc" id="L45">                .orElseThrow(() -&gt; new RuntimeException(&quot;Operador no encontrado&quot;));</span>
+<span class="fc" id="L46">        Operador operadorExistente = operadorRepository.findById(id)</span>
+<span class="fc" id="L47">                .orElseThrow(() -&gt; new RuntimeException(&quot;Operador no encontrado&quot;));</span>
 
-<span class="fc" id="L47">        operadorExistente.setNombres(request.getNombres());</span>
-<span class="fc" id="L48">        operadorExistente.setApellidos(request.getApellidos());</span>
-<span class="fc" id="L49">        operadorExistente.setCargo(request.getCargo());</span>
-<span class="fc" id="L50">        operadorExistente.setTelefono(request.getTelefono());</span>
+<span class="fc" id="L49">        operadorExistente.setNombres(request.getNombres());</span>
+<span class="fc" id="L50">        operadorExistente.setApellidos(request.getApellidos());</span>
+<span class="fc" id="L51">        operadorExistente.setCargo(request.getCargo());</span>
+<span class="fc" id="L52">        operadorExistente.setTelefono(request.getTelefono());</span>
 
-<span class="fc" id="L52">        Operador operadorActualizado = operadorRepository.save(operadorExistente);</span>
-<span class="fc" id="L53">        return operadorMapper.toResponse(operadorActualizado);</span>
+<span class="fc" id="L54">        Operador operadorActualizado = operadorRepository.save(operadorExistente);</span>
+<span class="fc" id="L55">        return operadorMapper.toResponse(operadorActualizado);</span>
+    }
+
+    @Override
+    @Transactional
+    public OperadorResponse findByUsuarioEmail(String email) {
+<span class="fc" id="L61">        Operador operador = operadorRepository.findByUsuarioEmail(email)</span>
+<span class="fc" id="L62">                .orElseThrow(() -&gt; new RuntimeException(&quot;Comunero no encontrado&quot;));</span>
+<span class="fc" id="L63">        return operadorMapper.toResponse(operador);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

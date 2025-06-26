@@ -30,7 +30,7 @@ public class HistorialEstadoServiceImpl implements HistorialEstadoService {
 <span class="fc" id="L30">                .orElseThrow(() -&gt; new RuntimeException(&quot;Incidencia no encontrada&quot;));</span>
 
 <span class="fc" id="L32">        Operador operador = operadorRepository.findById(operadorId)</span>
-<span class="pc" id="L33">                .orElseThrow(() -&gt; new RuntimeException(&quot;Operador no encontrado&quot;));</span>
+<span class="fc" id="L33">                .orElseThrow(() -&gt; new RuntimeException(&quot;Operador no encontrado&quot;));</span>
 
 <span class="fc" id="L35">        Estado estadoAnterior = incidencia.getEstado();</span>
 

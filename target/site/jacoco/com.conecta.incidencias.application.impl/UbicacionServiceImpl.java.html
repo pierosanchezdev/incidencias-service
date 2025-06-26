@@ -16,9 +16,9 @@ public class UbicacionServiceImpl implements UbicacionService {
 
     @Override
     public Integer crear(UbicacionRequest request) {
-<span class="nc" id="L19">        UbicacionGeografica entidad = ubicacionMapper.toEntity(request);</span>
-<span class="nc" id="L20">        ubicacionRepository.save(entidad);</span>
-<span class="nc" id="L21">        return entidad.getId().intValue();</span>
+<span class="fc" id="L19">        UbicacionGeografica entidad = ubicacionMapper.toEntity(request);</span>
+<span class="fc" id="L20">        ubicacionRepository.save(entidad);</span>
+<span class="fc" id="L21">        return entidad.getId().intValue();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

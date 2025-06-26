@@ -1,5 +1,6 @@
 package com.conecta.incidencias.dto.request;
 
+import com.conecta.incidencias.enums.Estado;
 import com.conecta.incidencias.enums.Impacto;
 import com.conecta.incidencias.enums.Urgencia;
 import jakarta.validation.constraints.NotBlank;
@@ -41,6 +42,9 @@ public class IncidenciaRequest {
 
     @NotNull(message = "El ID de la ubicación es obligatorio")
     private Long ubicacionId;
+
+    @NotNull(message = "El estado es obligatorio")
+    private Estado estado;
 
     private List<ArchivoRequest> archivos;
 }

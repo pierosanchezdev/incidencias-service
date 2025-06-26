@@ -9,4 +9,5 @@ public interface OperadorService {
     OperadorResponse crearOperador(OperadorRequest request);
     Optional<OperadorResponse> obtenerOperadorPorId(Long id);
     OperadorResponse actualizarOperador(Long id, OperadorRequest request);
+    OperadorResponse findByUsuarioEmail(String email);
 }

@@ -35,8 +35,8 @@ public class ComuneroController {
 
     @GetMapping(&quot;/email/{email}&quot;)
     public ResponseEntity&lt;ComuneroResponse&gt; obtenerPorEmail(@PathVariable String email) {
-<span class="nc" id="L38">        ComuneroResponse response = comuneroService.findByUsuarioEmail(email);</span>
-<span class="nc" id="L39">        return ResponseEntity.ok(response);</span>
+<span class="fc" id="L38">        ComuneroResponse response = comuneroService.findByUsuarioEmail(email);</span>
+<span class="fc" id="L39">        return ResponseEntity.ok(response);</span>
     }
 
 }
