@@ -18,6 +18,7 @@ D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\test
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\test\java\com\conecta\incidencias\controller\UsuarioControllerTest.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\test\java\com\conecta\incidencias\e2e\RegistroIncidenciaE2ETest.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\test\java\com\conecta\incidencias\IncidenciasServiceApplicationTests.java
+D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\test\java\com\conecta\incidencias\integration\IncidenciaIntegrationTest.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\test\java\com\conecta\incidencias\mapper\ArchivoMapperTest.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\test\java\com\conecta\incidencias\mapper\CategoriaMapperTest.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\test\java\com\conecta\incidencias\mapper\ComuneroMapperTest.java

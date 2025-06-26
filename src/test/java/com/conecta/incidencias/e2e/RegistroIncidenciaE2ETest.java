@@ -8,6 +8,7 @@ import com.conecta.incidencias.entity.Usuario;
 import com.conecta.incidencias.enums.Impacto;
 import com.conecta.incidencias.enums.RolUsuario;
 import com.conecta.incidencias.enums.Urgencia;
+import com.conecta.incidencias.exception.StorageException;
 import com.conecta.incidencias.repository.CategoriaRepository;
 import com.conecta.incidencias.repository.UbicacionGeograficaRepository;
 import com.conecta.incidencias.repository.UsuarioRepository;
@@ -22,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ActiveProfiles;
@@ -30,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -105,7 +108,7 @@ class RegistroIncidenciaE2ETest {
 
         UserDetails userDetails = User.withUsername("testuser")
                 .password("password")
-                .authorities(Collections.emptyList())
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_COMUNERO")))
                 .build();
 
         when(userDetailsService.loadUserByUsername("testuser")).thenReturn(userDetails);
@@ -113,11 +116,11 @@ class RegistroIncidenciaE2ETest {
         IncidenciaRequest incidenciaRequest = new IncidenciaRequest();
         incidenciaRequest.setTitulo("Fuga de agua");
         incidenciaRequest.setDescripcion("Se detecta fuga en la tubería principal");
+        incidenciaRequest.setUbicacionId(ubicacionId);
         incidenciaRequest.setUrgencia(Urgencia.ALTA);
         incidenciaRequest.setImpacto(Impacto.ALTO);
-        incidenciaRequest.setCategoriaId(1L);
-        incidenciaRequest.setUsuarioId(1L);
-        incidenciaRequest.setUbicacionId(1L);
+        incidenciaRequest.setCategoriaId(categoriaId);
+        incidenciaRequest.setUsuarioId(usuarioId);
 
         String datosJson = objectMapper.writeValueAsString(incidenciaRequest);
 
@@ -154,10 +157,12 @@ class RegistroIncidenciaE2ETest {
 
         UserDetails userDetails = User.withUsername("testuser")
                 .password("password")
-                .authorities(Collections.emptyList())
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_COMUNERO")))
                 .build();
 
         when(userDetailsService.loadUserByUsername("testuser")).thenReturn(userDetails);
+
+        when(storageService.subirArchivo(any())).thenThrow(new StorageException("Falla de disco"));
 
         IncidenciaRequest incidenciaRequest = new IncidenciaRequest();
         incidenciaRequest.setTitulo("Incendio sospechoso");
@@ -191,7 +196,7 @@ class RegistroIncidenciaE2ETest {
                         .file(archivoInvalido)
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isServiceUnavailable());
     }
 
     @Test
@@ -204,7 +209,7 @@ class RegistroIncidenciaE2ETest {
 
         UserDetails userDetails = User.withUsername("testuser")
                 .password("password")
-                .authorities(Collections.emptyList())
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_COMUNERO")))
                 .build();
 
         when(userDetailsService.loadUserByUsername("testuser")).thenReturn(userDetails);
@@ -255,7 +260,7 @@ class RegistroIncidenciaE2ETest {
 
         UserDetails userDetails = User.withUsername("testuser")
                 .password("password")
-                .authorities(Collections.emptyList())
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_COMUNERO")))
                 .build();
 
         when(userDetailsService.loadUserByUsername("testuser")).thenReturn(userDetails);

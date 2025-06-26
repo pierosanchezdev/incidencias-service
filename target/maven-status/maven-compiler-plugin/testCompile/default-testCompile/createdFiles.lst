@@ -27,6 +27,7 @@ com\conecta\incidencias\mapper\UbicacionMapperTest.class
 com\conecta\incidencias\mapper\ComuneroMapperTest.class
 com\conecta\incidencias\mapper\IncidenciaMapperTest.class
 com\conecta\incidencias\controller\UsuarioControllerTest.class
+com\conecta\incidencias\integration\IncidenciaIntegrationTest.class
 com\conecta\incidencias\controller\IncidenciaControllerTest.class
 com\conecta\incidencias\application\impl\UbicacionServiceImplTest.class
 com\conecta\incidencias\mapper\OperadorMapperTest.class

@@ -38,6 +38,7 @@ com\conecta\incidencias\dto\request\CambioEstadoRequest.class
 com\conecta\incidencias\enums\Estado.class
 com\conecta\incidencias\config\CorsConfig.class
 com\conecta\incidencias\mapper\IncidenciaMapper.class
+com\conecta\incidencias\exception\StorageException.class
 com\conecta\incidencias\dto\response\OperadorResponse.class
 com\conecta\incidencias\mapper\UbicacionMapper.class
 com\conecta\incidencias\dto\request\ComuneroRequest$ComuneroRequestBuilder.class

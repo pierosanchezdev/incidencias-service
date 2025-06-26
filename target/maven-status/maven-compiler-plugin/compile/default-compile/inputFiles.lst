@@ -59,6 +59,7 @@ D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\main
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\main\java\com\conecta\incidencias\enums\RolUsuario.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\main\java\com\conecta\incidencias\enums\TipoArchivo.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\main\java\com\conecta\incidencias\enums\Urgencia.java
+D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\main\java\com\conecta\incidencias\exception\StorageException.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\main\java\com\conecta\incidencias\IncidenciasServiceApplication.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\main\java\com\conecta\incidencias\mapper\ArchivoMapper.java
 D:\UPN\Ciclo8\Calidad y pruebas de software\project\incidencias-service\src\main\java\com\conecta\incidencias\mapper\CategoriaMapper.java

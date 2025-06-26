@@ -36,4 +36,4 @@ incidencias-service,com.conecta.incidencias.application.impl,ArchivoServiceImpl,
 incidencias-service,com.conecta.incidencias.application.impl,ComuneroServiceImpl,0,145,0,0,0,27,0,9,0,9
 incidencias-service,com.conecta.incidencias.application.impl,OperadorServiceImpl,0,103,0,0,0,19,0,7,0,7
 incidencias-service,com.conecta.incidencias.application.impl,UsuarioServiceImpl,0,69,0,0,0,13,0,4,0,4
-incidencias-service,com.conecta.incidencias.application.impl,StorageServiceImpl,0,42,0,0,0,9,0,3,0,3
+incidencias-service,com.conecta.incidencias.application.impl,StorageServiceImpl,18,57,3,3,4,13,3,5,0,5

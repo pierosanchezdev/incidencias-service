@@ -28,7 +28,7 @@ class StorageServiceImplTest {
     void subirArchivo_deberiaGuardarArchivoCorrectamente() throws IOException {
         // Arrange
         byte[] content = "contenido de prueba".getBytes();
-        MultipartFile archivo = new MockMultipartFile("archivo", "prueba.txt", "text/plain", content);
+        MultipartFile archivo = new MockMultipartFile("archivo", "prueba.jpg", "image/png", content);
 
         // Act
         String path = storageService.subirArchivo(archivo);

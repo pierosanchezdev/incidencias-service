@@ -42,12 +42,12 @@ public class StorageServiceImpl implements StorageService {
 
     private void validarTipoDeArchivo(MultipartFile archivo) {
         if (archivo == null || archivo.isEmpty()) {
-            throw new IllegalArgumentException(ERROR_VACIO);
+            throw new StorageException(ERROR_VACIO);
         }
 
         String tipo = archivo.getContentType();
         if (!TIPOS_VALIDOS.contains(tipo)) {
-            throw new IllegalArgumentException(ERROR_TIPO + tipo);
+            throw new StorageException(ERROR_TIPO + tipo);
         }
     }
 }

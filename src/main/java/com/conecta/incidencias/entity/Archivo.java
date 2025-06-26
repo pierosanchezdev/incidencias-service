@@ -41,7 +41,6 @@ public class Archivo {
     @JoinColumn(name = "incidencia_id", nullable = false)
     private Incidencia incidencia;
 
-    @NotBlank(message = "La URL del archivo es obligatoria")
     @Size(max = 500)
     private String url;
 
